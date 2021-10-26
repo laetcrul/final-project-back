@@ -15,7 +15,4 @@ public class Department {
 
     @Column(length = 100)
     private String label;
-
-    @OneToMany
-    private List<Team> teams;
 }
