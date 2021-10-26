@@ -1,9 +1,8 @@
 package be.digitalcity.laetitia.finalproject.util.dbfiller;
 
-import be.digitalcity.laetitia.finalproject.models.entities.Alert;
-import be.digitalcity.laetitia.finalproject.models.entities.AlertEvent;
+import be.digitalcity.laetitia.finalproject.models.entities.Invitation;
 import be.digitalcity.laetitia.finalproject.repositories.*;
-import be.digitalcity.laetitia.finalproject.util.enums.ALERT_CATEGORY;
+import be.digitalcity.laetitia.finalproject.util.enums.STATUS;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,14 +15,16 @@ public class DBFiller implements InitializingBean{
     private final PasswordEncoder encoder;
     private final AlertEventRepository alertEventRepository;
     private final EventRepository eventRepository;
+    private final InvitationRepository invitationRepository;
 
-    public DBFiller(UserRepository userRepository, TeamRepository teamRepository, GroupRepository groupRepository, PasswordEncoder encoder, AlertEventRepository alertEventRepository, EventRepository eventRepository) {
+    public DBFiller(UserRepository userRepository, TeamRepository teamRepository, GroupRepository groupRepository, PasswordEncoder encoder, AlertEventRepository alertEventRepository, EventRepository eventRepository, InvitationRepository invitationRepository) {
         this.userRepository = userRepository;
         this.teamRepository = teamRepository;
         this.groupRepository = groupRepository;
         this.encoder = encoder;
         this.alertEventRepository = alertEventRepository;
         this.eventRepository = eventRepository;
+        this.invitationRepository = invitationRepository;
     }
 
     @Override
@@ -35,6 +36,23 @@ public class DBFiller implements InitializingBean{
 //
 //        userRepository.saveAll(toInsert);
 
-
+//        Invitation invitation = new Invitation();
+//        invitation.setMessage("Hey let's go drink!");
+//        invitation.setEvent(eventRepository.getById(2L));
+//        invitation.setRecipient(userRepository.getById(1L));
+//        invitation.setSender(userRepository.getById(2L));
+//        invitation.setStatus(STATUS.PENDING);
+//
+//        invitationRepository.save(invitation);
+//
+//
+//        Invitation invitation2 = new Invitation();
+//        invitation2.setMessage("Hey let's go dance!");
+//        invitation2.setEvent(eventRepository.getById(1L));
+//        invitation2.setRecipient(userRepository.getById(2L));
+//        invitation2.setSender(userRepository.getById(1L));
+//        invitation2.setStatus(STATUS.PENDING);
+//
+//        invitationRepository.save(invitation2);
     }
 }

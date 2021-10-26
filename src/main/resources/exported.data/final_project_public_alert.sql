@@ -1,0 +1,2 @@
+INSERT INTO public.alert (dtype, id, category, is_handled, message, response_message, event_id, topic_id, creator_id) VALUES ('AlertEvent', 1, 1, false, 'Really bad moovie', null, 3, null, 1);
+INSERT INTO public.alert (dtype, id, category, is_handled, message, response_message, event_id, topic_id, creator_id) VALUES ('AlertEvent', 2, 0, false, 'invites to drink a lot', null, 2, null, 2);
