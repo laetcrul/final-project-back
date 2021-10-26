@@ -12,6 +12,7 @@ public class Invitation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 500)
     private String message;
 
     @ManyToOne
@@ -25,5 +26,6 @@ public class Invitation {
 
     private STATUS status;
 
+    @Column(length = 500)
     private String responseMessage;
 }

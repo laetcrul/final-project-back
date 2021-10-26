@@ -2,10 +2,7 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -14,13 +11,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 100)
     private String street;
 
     private int number;
 
     private int postCode;
 
+    @Column(length = 100)
     private String city;
 
+    @Column(length = 100)
     private String country;
 }

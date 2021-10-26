@@ -13,10 +13,13 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 100)
     private String name;
 
+    @Column(length = 500)
     private String description;
 
+    @Column(length = 250)
     private String image;
 
     @ManyToOne

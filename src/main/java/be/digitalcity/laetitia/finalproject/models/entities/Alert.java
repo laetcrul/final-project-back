@@ -11,11 +11,13 @@ public class Alert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 500)
     private String message;
 
     private ALERT_CATEGORY category;
 
     private boolean isHandled;
 
+    @Column(length = 500)
     private String responseMessage;
 }

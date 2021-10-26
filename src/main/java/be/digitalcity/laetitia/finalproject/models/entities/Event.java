@@ -14,10 +14,13 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 250)
     private String name;
 
+    @Column(length = 500)
     private String description;
 
+    @Column(length = 250)
     private String image;
 
     private Date date;
