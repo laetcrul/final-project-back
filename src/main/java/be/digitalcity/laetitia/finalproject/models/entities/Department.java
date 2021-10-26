@@ -15,6 +15,6 @@ public class Department {
 
     private String label;
 
-    @OneToMany(targetEntity = Team.class)
+    @OneToMany
     private List<Team> teams;
 }

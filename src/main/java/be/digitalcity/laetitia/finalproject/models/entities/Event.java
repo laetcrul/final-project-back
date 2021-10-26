@@ -1,0 +1,42 @@
+package be.digitalcity.laetitia.finalproject.models.entities;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.List;
+
+@Entity
+@Data
+public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String description;
+
+    private String image;
+
+    private Date date;
+
+    @ManyToOne
+    private Topic topic;
+
+    @ManyToOne
+    private Address address;
+
+    private Date creationDate;
+
+    @ManyToOne
+    private User creator;
+
+    @ManyToMany
+    private List<User> participants;
+
+    private boolean limitedToTeam;
+
+    private boolean limitedToDepartment;
+}

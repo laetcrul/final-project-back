@@ -22,13 +22,13 @@ public class User implements UserDetails {
 
     private String image;
 
-    @ManyToOne(targetEntity = Team.class)
+    @ManyToOne
     private Team team;
 
-    @ManyToOne(targetEntity = Group.class)
+    @ManyToOne
     private Group group;
 
-    @ManyToMany(targetEntity = Role.class)
+    @ManyToMany
     private List<Role> roles;
 
     private boolean isAccountNonExpired;

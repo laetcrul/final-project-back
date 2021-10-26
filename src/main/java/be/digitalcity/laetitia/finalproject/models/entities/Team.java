@@ -11,6 +11,6 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = Department.class)
+    @ManyToOne
     private Department department;
 }
