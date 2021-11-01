@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,4 +16,7 @@ public class Team {
 
     @ManyToOne
     private Department department;
+
+    @OneToMany
+    private List<User> members;
 }

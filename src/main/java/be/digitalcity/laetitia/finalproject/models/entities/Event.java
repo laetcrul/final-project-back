@@ -42,4 +42,12 @@ public class Event {
     private boolean limitedToTeam;
 
     private boolean limitedToDepartment;
+
+    public Team getCreatorTeam(){
+        return this.creator.getTeam();
+    }
+
+    public Department getCreatorDepartment(){
+        return this.getCreatorTeam().getDepartment();
+    }
 }
