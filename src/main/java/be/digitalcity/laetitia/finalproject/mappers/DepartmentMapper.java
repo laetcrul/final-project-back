@@ -6,17 +6,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DepartmentMapper {
-    private final TeamMapper teamMapper;
-
-    public DepartmentMapper(TeamMapper teamMapper) {
-        this.teamMapper = teamMapper;
-    }
 
     public DepartmentDTO toDTO(Department entity){
         return DepartmentDTO.builder()
                 .id((entity.getId()))
                 .label(entity.getLabel())
-                .teams(teamMapper.toDTOs(entity.getTeams()))
                 .build();
+    }
+
+    public Department toEntity(DepartmentDTO dto){
+        Department entity = new Department();
+        entity.setId(dto.getId());
+        entity.setLabel(dto.getLabel());
+
+        return entity;
     }
 }

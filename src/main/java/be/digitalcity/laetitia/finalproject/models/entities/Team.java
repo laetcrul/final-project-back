@@ -16,7 +16,4 @@ public class Team {
 
     @ManyToOne
     private Department department;
-
-    @OneToMany
-    private List<User> members;
 }

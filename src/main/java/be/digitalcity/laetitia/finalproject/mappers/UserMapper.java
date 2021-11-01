@@ -39,4 +39,26 @@ public class UserMapper {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public User toEntity(UserDTO dto) {
+        User entity = new User();
+        entity.setId(dto.getId());
+        entity.setUsername(dto.getUsername());
+        entity.setImage(dto.getImage());
+        entity.setTeam(teamMapper.toEntity(dto.getTeam()));
+        entity.setGroup(groupMapper.toEntity(dto.getGroup()));
+        entity.setRoles(roleMapper.toEntities(dto.getRoles()));
+        entity.setAccountNonExpired(dto.isAccountNotExpired());
+        entity.setNonLocked(dto.isNonLocked());
+        entity.setCredentialsNonExpired(dto.isCredentialsNonExpired());
+        entity.setEnabled(dto.isEnabled());
+
+        return entity;
+    }
+
+    public List<User> toEntities(List<UserDTO> dtos) {
+        return dtos.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
+    }
 }

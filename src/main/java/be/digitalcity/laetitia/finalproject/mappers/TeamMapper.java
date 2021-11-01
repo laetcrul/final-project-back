@@ -9,11 +9,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeamMapper {
-    private final UserMapper userMapper;
     private final DepartmentMapper departmentMapper;
 
-    public TeamMapper(UserMapper userMapper, DepartmentMapper departmentMapper) {
-        this.userMapper = userMapper;
+    public TeamMapper(DepartmentMapper departmentMapper) {
         this.departmentMapper = departmentMapper;
     }
 
@@ -22,7 +20,6 @@ public class TeamMapper {
                 .id(entity.getId())
                 .department(departmentMapper.toDTO(entity.getDepartment()))
                 .label(entity.getLabel())
-                .members(userMapper.toDTOs(entity.getMembers()))
                 .build();
     }
 
@@ -30,5 +27,14 @@ public class TeamMapper {
         return entities.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Team toEntity(TeamDTO dto) {
+        Team entity = new Team();
+        entity.setId(dto.getId());
+        entity.setLabel(dto.getLabel());
+        entity.setDepartment(departmentMapper.toEntity(dto.getDepartment()));
+
+        return entity;
     }
 }

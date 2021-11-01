@@ -3,7 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity

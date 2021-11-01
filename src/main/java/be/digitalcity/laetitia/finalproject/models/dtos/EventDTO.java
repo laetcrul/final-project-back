@@ -1,12 +1,14 @@
 package be.digitalcity.laetitia.finalproject.models.dtos;
 
 import be.digitalcity.laetitia.finalproject.models.entities.User;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
 public class EventDTO {
     private Long id;
     private String name;
@@ -17,7 +19,7 @@ public class EventDTO {
     private AddressDTO address;
     private Date creationDate;
     private UserDTO creator;
-    private List<User> participants;
+    private List<UserDTO> participants;
     private boolean limitedToTeam;
     private boolean limitedToDepartment;
 

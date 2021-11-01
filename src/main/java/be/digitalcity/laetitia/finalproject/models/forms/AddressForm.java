@@ -6,7 +6,7 @@ import lombok.Data;
 public class AddressForm {
     private String street;
     private int number;
-    private int postcode;
     private String city;
+    private int postcode;
     private String country;
 }

@@ -22,4 +22,18 @@ public class RoleMapper {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public Role toEntity(RoleDTO dto) {
+        Role entity = new Role();
+        entity.setId(dto.getId());
+        entity.setLabel(dto.getLabel());
+
+        return entity;
+    }
+
+    public List<Role> toEntities(List<RoleDTO> dtos){
+        return dtos.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
+    }
 }

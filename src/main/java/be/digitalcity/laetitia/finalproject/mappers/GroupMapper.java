@@ -19,4 +19,13 @@ public class GroupMapper {
                 .roles(roleMapper.toDTOs(entity.getRoles()))
                 .build();
     }
+
+    public Group toEntity(GroupDTO dto){
+        Group entity = new Group();
+        entity.setId(dto.getId());
+        entity.setLabel(dto.getLabel());
+        entity.setRoles(roleMapper.toEntities(dto.getRoles()));
+
+        return entity;
+    }
 }

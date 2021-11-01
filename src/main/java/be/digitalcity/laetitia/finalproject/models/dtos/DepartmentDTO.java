@@ -10,5 +10,4 @@ import java.util.List;
 public class DepartmentDTO {
     private Long id;
     private String label;
-    private List<TeamDTO> teams;
 }

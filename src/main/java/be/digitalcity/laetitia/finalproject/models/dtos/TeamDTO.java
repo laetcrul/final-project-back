@@ -11,5 +11,4 @@ public class TeamDTO {
     private Long id;
     private String label;
     private DepartmentDTO department;
-    private List<UserDTO> members;
 }
