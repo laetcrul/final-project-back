@@ -1,0 +1,22 @@
+package be.digitalcity.laetitia.finalproject.mappers;
+
+import be.digitalcity.laetitia.finalproject.models.dtos.GroupDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Group;
+import org.springframework.stereotype.Service;
+
+@Service
+public class GroupMapper {
+    private final RoleMapper roleMapper;
+
+    public GroupMapper(RoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
+
+    public GroupDTO toDTO(Group entity) {
+        return GroupDTO.builder()
+                .id(entity.getId())
+                .label(entity.getLabel())
+                .roles(roleMapper.toDTOs(entity.getRoles()))
+                .build();
+    }
+}
