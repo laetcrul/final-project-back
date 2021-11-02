@@ -5,6 +5,9 @@ import be.digitalcity.laetitia.finalproject.models.entities.Address;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AddressMapper {
     public AddressDTO toDTO(Address entity) {
@@ -16,6 +19,12 @@ public class AddressMapper {
                 .city(entity.getCity())
                 .country(entity.getCountry())
                 .build();
+    }
+
+    public List<AddressDTO> toDTOs(List<Address> entities) {
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public Address toEntity(AddressForm form) {
