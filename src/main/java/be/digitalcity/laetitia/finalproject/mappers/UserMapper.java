@@ -20,6 +20,10 @@ public class UserMapper {
     }
 
     public UserDTO toDTO(User entity){
+        if (entity == null) {
+            return null;
+        }
+
         return UserDTO.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
@@ -35,12 +39,20 @@ public class UserMapper {
     }
 
     public List<UserDTO> toDTOs(List<User> entities){
+        if (entities == null) {
+            return null;
+        }
+
         return entities.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     public User toEntity(UserDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         User entity = new User();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
@@ -57,6 +69,10 @@ public class UserMapper {
     }
 
     public List<User> toEntities(List<UserDTO> dtos) {
+        if (dtos == null) {
+            return null;
+        }
+
         return dtos.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());

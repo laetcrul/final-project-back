@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 public class RoleMapper {
 
     public RoleDTO toDTO(Role entity){
+        if (entity == null) {
+            return null;
+        }
+
         return RoleDTO.builder()
                 .id(entity.getId())
                 .label(entity.getLabel())
@@ -18,12 +22,20 @@ public class RoleMapper {
     }
 
     public List<RoleDTO> toDTOs(List<Role> entities){
+        if (entities == null) {
+            return null;
+        }
+
         return entities.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     public Role toEntity(RoleDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Role entity = new Role();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());
@@ -32,6 +44,10 @@ public class RoleMapper {
     }
 
     public List<Role> toEntities(List<RoleDTO> dtos){
+        if (dtos == null) {
+            return null;
+        }
+
         return dtos.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());

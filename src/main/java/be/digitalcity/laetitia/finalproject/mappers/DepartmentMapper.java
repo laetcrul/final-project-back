@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 public class DepartmentMapper {
 
     public DepartmentDTO toDTO(Department entity){
+        if (entity == null) {
+            return null;
+        }
+
         return DepartmentDTO.builder()
                 .id((entity.getId()))
                 .label(entity.getLabel())
@@ -15,6 +19,10 @@ public class DepartmentMapper {
     }
 
     public Department toEntity(DepartmentDTO dto){
+        if (dto == null) {
+            return null;
+        }
+
         Department entity = new Department();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());

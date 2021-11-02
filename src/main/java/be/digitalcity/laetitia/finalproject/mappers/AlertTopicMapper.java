@@ -7,6 +7,9 @@ import be.digitalcity.laetitia.finalproject.services.impl.TopicService;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AlertTopicMapper {
     private final UserMapper userMapper;
@@ -22,6 +25,10 @@ public class AlertTopicMapper {
     }
 
     public AlertTopicDTO toDTO(AlertTopic entity) {
+        if (entity == null) {
+            return null;
+        }
+
         AlertTopicDTO dto = new AlertTopicDTO();
 
         dto.setId(entity.getId());
@@ -35,7 +42,21 @@ public class AlertTopicMapper {
         return dto;
     }
 
+    public List<AlertTopicDTO> toDTOs(List<AlertTopic> entities) {
+        if (entities == null) {
+            return null;
+        }
+
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public AlertTopic toEntity(AlertTopicDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         AlertTopic entity = new AlertTopic();
 
         entity.setId(dto.getId());
@@ -50,6 +71,10 @@ public class AlertTopicMapper {
     }
 
     public AlertTopic toEntity(AlertTopicForm form) {
+        if (form == null) {
+            return null;
+        }
+
         AlertTopic entity = new AlertTopic();
 
         entity.setMessage(form.getMessage());

@@ -27,6 +27,10 @@ public class EventMapper {
     }
 
     public EventDTO toDTO(Event entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return EventDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -44,6 +48,10 @@ public class EventMapper {
     }
 
     public Event toEntity(EventForm form) {
+        if (form == null) {
+            return null;
+        }
+
         Event entity = new Event();
         entity.setTopic(topicMapper.toEntity(topicService.findById(form.getTopicId())));
         entity.setName(form.getName());
@@ -58,6 +66,10 @@ public class EventMapper {
     }
 
     public Event toEntity(EventDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Event entity = new Event();
 
         entity.setId(dto.getId());

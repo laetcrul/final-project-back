@@ -7,6 +7,9 @@ import be.digitalcity.laetitia.finalproject.services.impl.EventService;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AlertEventMapper {
     private final UserMapper userMapper;
@@ -22,6 +25,10 @@ public class AlertEventMapper {
     }
 
     public AlertEventDTO toDTO(AlertEvent entity) {
+        if (entity == null) {
+            return null;
+        }
+
         AlertEventDTO dto = new AlertEventDTO();
 
         dto.setId(entity.getId());
@@ -35,7 +42,21 @@ public class AlertEventMapper {
         return dto;
     }
 
+    public List<AlertEventDTO> toDTOs(List<AlertEvent> entities) {
+        if (entities == null) {
+            return null;
+        }
+
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public AlertEvent toEntity(AlertEventDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         AlertEvent entity = new AlertEvent();
         entity.setId(dto.getId());
         entity.setMessage(dto.getMessage());
@@ -49,6 +70,9 @@ public class AlertEventMapper {
     }
 
     public AlertEvent toEntity(AlertEventForm form) {
+        if (form == null) {
+            return null;
+        }
         AlertEvent entity = new AlertEvent();
         entity.setMessage(form.getMessage());
         entity.setCreator(userMapper.toEntity(userService.findById(form.getCreatorId())));

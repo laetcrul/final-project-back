@@ -17,6 +17,10 @@ public class TopicMapper {
     }
 
     public TopicDTO toDTO(Topic entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return TopicDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -29,6 +33,10 @@ public class TopicMapper {
     }
 
     public Topic toEntity(TopicForm form) {
+        if (form == null) {
+            return null;
+        }
+
         Topic entity = new Topic();
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
@@ -39,6 +47,10 @@ public class TopicMapper {
     }
 
     public Topic toEntity(TopicDTO dto){
+        if (dto == null) {
+            return null;
+        }
+
         Topic entity = new Topic();
         entity.setId(dto.getId());
         entity.setName(dto.getName());

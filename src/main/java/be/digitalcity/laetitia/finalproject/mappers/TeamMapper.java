@@ -16,6 +16,10 @@ public class TeamMapper {
     }
 
     public TeamDTO toDTO(Team entity){
+        if (entity == null) {
+            return null;
+        }
+
         return TeamDTO.builder()
                 .id(entity.getId())
                 .department(departmentMapper.toDTO(entity.getDepartment()))
@@ -24,12 +28,20 @@ public class TeamMapper {
     }
 
     public List<TeamDTO> toDTOs(List<Team> entities){
+        if (entities == null) {
+            return null;
+        }
+
         return entities.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     public Team toEntity(TeamDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Team entity = new Team();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());

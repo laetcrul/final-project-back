@@ -11,6 +11,11 @@ import java.util.stream.Collectors;
 @Service
 public class AddressMapper {
     public AddressDTO toDTO(Address entity) {
+
+        if (entity == null) {
+            return null;
+        }
+
         return AddressDTO.builder()
                 .id(entity.getId())
                 .street(entity.getStreet())
@@ -22,12 +27,20 @@ public class AddressMapper {
     }
 
     public List<AddressDTO> toDTOs(List<Address> entities) {
+        if (entities == null) {
+            return null;
+        }
+
         return entities.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toUnmodifiableList());
     }
 
     public Address toEntity(AddressForm form) {
+        if (form == null) {
+            return null;
+        }
+
         Address entity = new Address();
         entity.setStreet(form.getStreet());
         entity.setNumber(form.getNumber());
@@ -39,6 +52,10 @@ public class AddressMapper {
     }
 
     public Address toEntity(AddressDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Address entity = new Address();
         entity.setId(dto.getId());
         entity.setStreet(dto.getStreet());

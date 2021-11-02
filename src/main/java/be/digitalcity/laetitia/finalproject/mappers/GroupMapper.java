@@ -13,6 +13,10 @@ public class GroupMapper {
     }
 
     public GroupDTO toDTO(Group entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return GroupDTO.builder()
                 .id(entity.getId())
                 .label(entity.getLabel())
@@ -21,6 +25,10 @@ public class GroupMapper {
     }
 
     public Group toEntity(GroupDTO dto){
+        if (dto == null) {
+            return null;
+        }
+
         Group entity = new Group();
         entity.setId(dto.getId());
         entity.setLabel(dto.getLabel());

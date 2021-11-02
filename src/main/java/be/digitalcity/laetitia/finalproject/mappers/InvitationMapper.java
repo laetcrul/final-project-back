@@ -22,6 +22,10 @@ public class InvitationMapper {
     }
 
     public Invitation toEntity(InvitationDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Invitation entity = new Invitation();
 
         entity.setId(dto.getId());
@@ -36,6 +40,10 @@ public class InvitationMapper {
     }
 
     public InvitationDTO toDTO(Invitation entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return InvitationDTO.builder()
                 .id(entity.getId())
                 .message(entity.getMessage())
@@ -48,6 +56,10 @@ public class InvitationMapper {
     }
 
     public InvitationDTO toDTO(InvitationForm form) {
+        if (form == null) {
+            return null;
+        }
+
         return InvitationDTO.builder()
                 .message(form.getMessage())
                 .recipient(userService.findById(form.getRecipientId()))
