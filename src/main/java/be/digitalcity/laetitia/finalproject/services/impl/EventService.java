@@ -2,11 +2,10 @@ package be.digitalcity.laetitia.finalproject.services.impl;
 
 import be.digitalcity.laetitia.finalproject.mappers.EventMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.EventDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Event;
 import be.digitalcity.laetitia.finalproject.repositories.EventRepository;
 import be.digitalcity.laetitia.finalproject.services.EventServiceInterface;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 public class EventService implements EventServiceInterface {
@@ -22,8 +21,9 @@ public class EventService implements EventServiceInterface {
         if (id == null){
             return null;
         }
-        if(this.repository.findById(id).isPresent()){
-            return mapper.toDTO(this.repository.findById(id).get());
-        } else throw new NoSuchElementException("no address found for this id");
+        Event event = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no event with this id"));
+
+        return mapper.toDTO(event);
     }
 }

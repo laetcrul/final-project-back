@@ -7,6 +7,8 @@ import be.digitalcity.laetitia.finalproject.models.dtos.AlertEventDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.AlertTopicDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.*;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertEventForm;
+import be.digitalcity.laetitia.finalproject.models.forms.AlertForm;
+import be.digitalcity.laetitia.finalproject.models.forms.AlertResponseForm;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertTopicForm;
 import be.digitalcity.laetitia.finalproject.repositories.*;
 import be.digitalcity.laetitia.finalproject.services.AlertServiceInterface;
@@ -26,8 +28,9 @@ public class AlertService implements AlertServiceInterface {
     private final TopicRepository topicRepository;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final AlertRepository alertRepository;
 
-    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicRepository topicRepository, EventRepository eventRepository, UserRepository userRepository) {
+    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicRepository topicRepository, EventRepository eventRepository, UserRepository userRepository, AlertRepository alertRepository) {
         this.alertEventRepository = alertEventRepository;
         this.alertTopicRepository = AlertTopicRepository;
         this.alertEventMapper = alertEventMapper;
@@ -35,6 +38,7 @@ public class AlertService implements AlertServiceInterface {
         this.topicRepository = topicRepository;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+        this.alertRepository = alertRepository;
     }
 
     public List<AlertDTO> findAllAlerts(){
@@ -93,6 +97,39 @@ public class AlertService implements AlertServiceInterface {
     }
 
     public void insertTopicAlert(AlertTopicForm form){
+        if (form == null) {
+            return;
+        }
+        this.alertTopicRepository.save(alertTopicMapper.toEntity(form));
+    }
 
+    public void updateAlert(Long id, AlertForm form) {
+        if (form == null) {
+            return;
+        }
+
+        Alert alert = alertRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No existing alert for this id"));
+
+        alert.setMessage(form.getMessage());
+        alert.setCategory(form.getCategory());
+    }
+
+    public void respondToAlert(AlertResponseForm form) {
+        Alert alert = alertRepository.findById(form.getAlertId())
+                .orElseThrow(() -> new IllegalArgumentException("No alert for this id"));
+
+        alert.setResponseMessage(form.getResponseMessage());
+        alert.setHandled(form.isHandled());
+        System.out.println(form.isHandled());
+
+        alertRepository.save(alert);
+    }
+
+    public void delete(Long id) {
+        Alert alert = alertRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No alert for this id"));
+
+        alertRepository.delete(alert);
     }
 }

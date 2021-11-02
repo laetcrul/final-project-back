@@ -1,11 +1,10 @@
 package be.digitalcity.laetitia.finalproject.controllers;
 
 import be.digitalcity.laetitia.finalproject.models.dtos.AlertDTO;
+import be.digitalcity.laetitia.finalproject.models.forms.AlertResponseForm;
 import be.digitalcity.laetitia.finalproject.services.impl.AlertService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +18,21 @@ public class AlertController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<AlertDTO>> findAll(){
+    public ResponseEntity<List<AlertDTO>> findAll() {
         return ResponseEntity.ok(service.findAllAlerts());
     }
+
+    @GetMapping("/created_by/{id}")
+    public ResponseEntity<List<AlertDTO>> findByCreator(@PathVariable Long id) {
+        return ResponseEntity.ok(this.service.findAllByCreator(id));
+    }
+
+    @PutMapping("/response")
+    public ResponseEntity<String> respond(@RequestBody AlertResponseForm form) {
+        this.service.respondToAlert(form);
+        return ResponseEntity.ok("Response sent");
+    }
+
+    //add more for all services//
+
 }
