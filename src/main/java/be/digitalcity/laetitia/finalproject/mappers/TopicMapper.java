@@ -6,6 +6,9 @@ import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TopicMapper {
     private final UserMapper userMapper;
@@ -30,6 +33,12 @@ public class TopicMapper {
                 .creationDate(entity.getCreationDate())
                 .subscribedUsers(userMapper.toDTOs(entity.getSubscribedUsers()))
                 .build();
+    }
+
+    public List<TopicDTO> toDTOs(List<Topic> entities) {
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Topic toEntity(TopicForm form) {
