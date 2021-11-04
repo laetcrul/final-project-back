@@ -14,6 +14,8 @@ import be.digitalcity.laetitia.finalproject.repositories.*;
 import be.digitalcity.laetitia.finalproject.services.AlertServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -93,14 +95,18 @@ public class AlertService implements AlertServiceInterface {
         if (form == null) {
             return;
         }
-        this.alertEventRepository.save(alertEventMapper.toEntity(form));
+        AlertEvent toSave = alertEventMapper.toEntity(form);
+        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
+        this.alertEventRepository.save(toSave);
     }
 
     public void insertTopicAlert(AlertTopicForm form){
         if (form == null) {
             return;
         }
-        this.alertTopicRepository.save(alertTopicMapper.toEntity(form));
+        AlertTopic toSave = alertTopicMapper.toEntity(form);
+        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
+        this.alertTopicRepository.save(toSave);
     }
 
     public void updateAlert(Long id, AlertForm form) {

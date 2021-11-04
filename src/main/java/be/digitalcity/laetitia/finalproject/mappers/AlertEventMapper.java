@@ -38,6 +38,7 @@ public class AlertEventMapper {
         dto.setHandled(entity.isHandled());
         dto.setResponseMessage(entity.getResponseMessage());
         dto.setEvent(eventMapper.toDTO(entity.getEvent()));
+        dto.setCreationDate(entity.getCreationDate());
 
         return dto;
     }
@@ -65,6 +66,7 @@ public class AlertEventMapper {
         entity.setHandled(dto.isHandled());
         entity.setResponseMessage(dto.getResponseMessage());
         entity.setEvent(eventMapper.toEntity(dto.getEvent()));
+        entity.setCreationDate(dto.getCreationDate());
 
         return entity;
     }

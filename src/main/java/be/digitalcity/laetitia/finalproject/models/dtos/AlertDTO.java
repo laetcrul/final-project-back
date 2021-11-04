@@ -4,6 +4,8 @@ import be.digitalcity.laetitia.finalproject.util.enums.ALERT_CATEGORY;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public abstract class AlertDTO {
     private Long id;
@@ -12,4 +14,5 @@ public abstract class AlertDTO {
     private ALERT_CATEGORY category;
     private boolean isHandled;
     private String responseMessage;
+    private Date creationDate;
 }

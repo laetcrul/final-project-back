@@ -4,6 +4,7 @@ import be.digitalcity.laetitia.finalproject.util.enums.ALERT_CATEGORY;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Inheritance
@@ -25,4 +26,6 @@ public class Alert {
 
     @Column(length = 500)
     private String responseMessage;
+
+    private Date creationDate;
 }

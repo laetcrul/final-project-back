@@ -3,11 +3,14 @@ package be.digitalcity.laetitia.finalproject.services.impl;
 import be.digitalcity.laetitia.finalproject.mappers.TopicMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.TopicDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Topic;
 import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
 import be.digitalcity.laetitia.finalproject.repositories.TopicRepository;
 import be.digitalcity.laetitia.finalproject.services.TopicServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -51,7 +54,10 @@ public class TopicService implements TopicServiceInterface {
         if (form == null) {
             return;
         }
-        this.repository.save(mapper.toEntity(form));
+        Topic toSave = mapper.toEntity(form);
+        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
+
+        this.repository.save(toSave);
     }
 
     public void update(Long id, TopicForm form) {
