@@ -9,6 +9,7 @@ import be.digitalcity.laetitia.finalproject.services.AddressServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService implements AddressServiceInterface {
@@ -34,29 +35,27 @@ public class AddressService implements AddressServiceInterface {
         return mapper.toDTOs(this.repository.findAll());
     }
 
+
     public void insert(AddressForm form) {
-        Address toSave = this.mapper.toEntity(form);
-        this.findAll().stream()
-                .map(mapper::toEntity)
-                .filter(address -> address.equals(toSave))
-                .findFirst()
-                .ifPresentOrElse(
-                        (address) -> {
-                        },
-                        () -> this.repository.save(toSave)
-                );
+        this.findAddressByFields(form).ifPresentOrElse(
+                (address) -> {
+                },
+                () -> this.repository.save(this.mapper.toEntity(form))
+        );
     }
 
     public void delete(Long id) {
-        AddressDTO toDelete = this.findById(id);
-        if (toDelete != null) {
-            this.repository.deleteById(toDelete.getId());
+        if (id == null) {
+            return;
         }
+        this.repository.deleteById(id);
     }
 
     public void update(Long id, AddressForm form) {
         Address toUpdate = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No address for this id"));
+
+        this.findAddressByFields(form).ifPresent((address) -> {throw new IllegalArgumentException("This address already exists");});
 
         toUpdate.setNumber(form.getNumber());
         toUpdate.setStreet(form.getStreet());
@@ -65,5 +64,18 @@ public class AddressService implements AddressServiceInterface {
         toUpdate.setCountry(form.getCountry());
 
         this.repository.save(toUpdate);
+    }
+
+    public Optional<AddressDTO> findAddressByFields(AddressForm form) {
+        if (form == null) {
+            return null;
+        }
+
+        Address toFind = this.mapper.toEntity(form);
+        AddressDTO toFindDTO = this.mapper.toDTO(toFind);
+
+        return this.findAll().stream()
+                .filter(address -> address.equals(toFindDTO))
+                .findFirst();
     }
 }

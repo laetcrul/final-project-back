@@ -133,9 +133,9 @@ public class AlertService implements AlertServiceInterface {
     }
 
     public void delete(Long id) {
-        Alert alert = alertRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("No alert for this id"));
-
-        alertRepository.delete(alert);
+        if (id == null) {
+            return;
+        }
+        alertRepository.deleteById(id);
     }
 }

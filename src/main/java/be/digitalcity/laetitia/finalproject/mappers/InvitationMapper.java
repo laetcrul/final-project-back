@@ -7,6 +7,9 @@ import be.digitalcity.laetitia.finalproject.services.impl.EventService;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class InvitationMapper {
     private final EventMapper eventMapper;
@@ -55,16 +58,23 @@ public class InvitationMapper {
                 .build();
     }
 
-    public InvitationDTO toDTO(InvitationForm form) {
+    public List<InvitationDTO> toDTOs(List<Invitation> entities) {
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public Invitation toEntity(InvitationForm form) {
         if (form == null) {
             return null;
         }
 
-        return InvitationDTO.builder()
-                .message(form.getMessage())
-                .recipient(userService.findById(form.getRecipientId()))
-                .sender(userService.findById(form.getSenderId()))
-                .event(eventService.findById(form.getEventId()))
-                .build();
+        Invitation entity = new Invitation();
+        entity.setSender(userMapper.toEntity(userService.findById(form.getSenderId())));
+        entity.setRecipient(userMapper.toEntity(userService.findById(form.getRecipientId())));
+        entity.setEvent(eventMapper.toEntity(eventService.findById(form.getEventId())));
+        entity.setMessage(form.getMessage());
+
+        return entity;
     }
 }

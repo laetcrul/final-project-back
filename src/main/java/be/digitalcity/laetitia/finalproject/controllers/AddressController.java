@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.controllers;
 import be.digitalcity.laetitia.finalproject.models.dtos.AddressDTO;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import be.digitalcity.laetitia.finalproject.services.impl.AddressService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,16 @@ public class AddressController {
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody AddressForm form) {
         this.service.update(id, form);
         return ResponseEntity.ok("Address updated");
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(
+            IllegalArgumentException e
+    ){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
     }
 }

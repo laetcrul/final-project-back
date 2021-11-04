@@ -89,4 +89,34 @@ public class TopicService implements TopicServiceInterface {
                 .filter(topic -> topic.getSubscribedUsers().contains(user))
                 .collect(Collectors.toList());
     }
+
+    public void subscribe(Long userId, Long topicId) {
+        if (userId == null || topicId == null) {
+            return;
+        }
+        UserDTO user = this.userService.findById(userId);
+        TopicDTO topic = this.findById(topicId);
+
+        if (!topic.getSubscribedUsers().contains(user)) {
+            List<UserDTO> updatedList = topic.getSubscribedUsers();
+            updatedList.add(user);
+            topic.setSubscribedUsers(updatedList);
+            this.repository.save(this.mapper.toEntity(topic));
+        }
+    }
+
+    public void unsubscribe(Long userId, Long topicId) {
+        if (userId == null || topicId == null) {
+            return;
+        }
+        UserDTO user = this.userService.findById(userId);
+        TopicDTO topic = this.findById(topicId);
+
+        if (topic.getSubscribedUsers().contains(user)) {
+            List<UserDTO> updatedList = topic.getSubscribedUsers();
+            updatedList.remove(user);
+            topic.setSubscribedUsers(updatedList);
+            this.repository.save(mapper.toEntity(topic));
+        }
+    }
 }

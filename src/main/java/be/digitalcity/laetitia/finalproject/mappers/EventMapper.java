@@ -8,6 +8,9 @@ import be.digitalcity.laetitia.finalproject.services.impl.TopicService;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class EventMapper {
     private final TopicMapper topicMapper;
@@ -45,6 +48,12 @@ public class EventMapper {
                 .limitedToTeam(entity.isLimitedToTeam())
                 .limitedToDepartment(entity.isLimitedToDepartment())
                 .build();
+    }
+
+    public List<EventDTO> toDTOs(List<Event> entities) {
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Event toEntity(EventForm form) {
