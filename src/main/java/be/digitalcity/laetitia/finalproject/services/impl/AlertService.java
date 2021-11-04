@@ -58,11 +58,17 @@ public class AlertService implements AlertServiceInterface {
         Optional<AlertEvent> eventOptional = alertEventRepository.findById(id);
         Optional<AlertTopic> topicOptional = alertTopicRepository.findById(id);
 
+
+
         if (eventOptional.isPresent()) {
             return alertEventMapper.toDTO(eventOptional.get());
         }
 
-        return topicOptional.map(alertTopicMapper::toDTO).orElse(null);
+        if (topicOptional.isPresent()) {
+            return alertTopicMapper.toDTO(topicOptional.get());
+        }
+
+        else throw new IllegalArgumentException("No alert for this id");
     }
 
     public List<AlertTopicDTO> findAllByTopic(Long topicId) {
@@ -119,6 +125,8 @@ public class AlertService implements AlertServiceInterface {
 
         alert.setMessage(form.getMessage());
         alert.setCategory(form.getCategory());
+
+        this.alertRepository.save(alert);
     }
 
     public void respondToAlert(AlertResponseForm form) {
@@ -136,6 +144,7 @@ public class AlertService implements AlertServiceInterface {
         if (id == null) {
             return;
         }
+        this.findById(id);
         alertRepository.deleteById(id);
     }
 }

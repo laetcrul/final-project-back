@@ -25,16 +25,14 @@ public class AddressService implements AddressServiceInterface {
         if (id == null) {
             return null;
         }
-        if (this.repository.findById(id).isPresent()) {
-            return mapper.toDTO(this.repository.findById(id).get());
-        } else return null;
-    }
 
+        return mapper.toDTO(this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no address for this id")));
+    }
 
     public List<AddressDTO> findAll() {
         return mapper.toDTOs(this.repository.findAll());
     }
-
 
     public void insert(AddressForm form) {
         this.findAddressByFields(form).ifPresentOrElse(

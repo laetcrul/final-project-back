@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 

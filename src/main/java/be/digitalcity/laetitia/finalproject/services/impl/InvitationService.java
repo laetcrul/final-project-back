@@ -63,6 +63,7 @@ public class InvitationService implements InvitationServiceInterface {
         if (form == null) {
             return;
         }
+        System.out.println(form);
         Invitation toSave = this.mapper.toEntity(form);
         toSave.setStatus(STATUS.PENDING);
         this.repository.save(toSave);

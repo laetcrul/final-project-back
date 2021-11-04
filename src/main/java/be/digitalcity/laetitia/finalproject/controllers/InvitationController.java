@@ -30,7 +30,7 @@ public class InvitationController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> create(InvitationForm form) {
+    public ResponseEntity<String> create(@RequestBody InvitationForm form) {
         this.service.insert(form);
         return ResponseEntity.ok("Invitation sent");
     }

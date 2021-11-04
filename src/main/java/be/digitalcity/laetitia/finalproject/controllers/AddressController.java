@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.controllers;
 import be.digitalcity.laetitia.finalproject.models.dtos.AddressDTO;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import be.digitalcity.laetitia.finalproject.services.impl.AddressService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +30,18 @@ public class AddressController {
         return ResponseEntity.ok("Address saved");
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        this.service.delete(id);
-        return ResponseEntity.ok("Address deleted");
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody AddressForm form) {
         this.service.update(id, form);
         return ResponseEntity.ok("Address updated");
     }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        this.service.delete(id);
+        return ResponseEntity.ok("Address deleted");
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgument(
