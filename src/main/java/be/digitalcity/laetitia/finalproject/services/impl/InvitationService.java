@@ -30,6 +30,15 @@ public class InvitationService implements InvitationServiceInterface {
         return this.mapper.toDTOs(this.repository.findAll());
     }
 
+    public InvitationDTO findById(Long id) {
+        if (id == null) {
+            return null;
+        }
+
+        return this.mapper.toDTO(this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No invitation for this id")));
+    }
+
     public List<InvitationDTO> findAllByRecipient(Long id) {
         if (id == null) {
             return null;
@@ -38,15 +47,6 @@ public class InvitationService implements InvitationServiceInterface {
         return this.findAll().stream()
                 .filter(invitation -> invitation.getRecipient().equals(recipient))
                 .collect(Collectors.toList());
-    }
-
-    public InvitationDTO findById(Long id) {
-        if (id == null) {
-            return null;
-        }
-
-        return this.mapper.toDTO(this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("No invitation for this id")));
     }
 
     public List<InvitationDTO> findAllBySender(Long id) {
@@ -59,6 +59,15 @@ public class InvitationService implements InvitationServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    public void insert(InvitationForm form) {
+        if (form == null) {
+            return;
+        }
+        Invitation toSave = this.mapper.toEntity(form);
+        toSave.setStatus(STATUS.PENDING);
+        this.repository.save(toSave);
+    }
+
     public void respond(InvitationResponseForm form) {
         if (form == null) {
             return;
@@ -67,15 +76,6 @@ public class InvitationService implements InvitationServiceInterface {
         InvitationDTO invitation = this.findById(form.getInvitationId());
         invitation.setMessage(form.getResponseMessage());
         invitation.setStatus(form.getStatus());
-    }
-
-    public void insert(InvitationForm form) {
-        if (form == null) {
-            return;
-        }
-        Invitation toSave = this.mapper.toEntity(form);
-        toSave.setStatus(STATUS.PENDING);
-        this.repository.save(toSave);
     }
 
     public void delete(Long id) {

@@ -42,7 +42,7 @@ public class UserService implements UserServiceInterface {
 
         if(this.repository.findById(id).isPresent()){
             return mapper.toDTO(this.repository.findById(id).get());
-        } else throw new NoSuchElementException("no user found for this id");
+        } else throw new IllegalArgumentException("No user found for this id");
     }
 
     public List<UserDTO> findALlByDepartment(Long id){

@@ -114,25 +114,6 @@ public class EventService implements EventServiceInterface {
         this.repository.deleteById(id);
     }
 
-    private EventForm addAddressIdToForm(EventForm form) {
-        if (form == null) {
-            return null;
-        }
-
-        if (form.getAddressId() == null) {
-            AddressForm newAddress = form.getAddressForm();
-
-            if (newAddress != null) {
-                this.addressService.insert(newAddress);
-                if (this.addressService.findAddressByFields(newAddress).isPresent()) {
-                    Long addressId = this.addressService.findAddressByFields(newAddress).get().getId();
-                    form.setAddressId(addressId);
-                }
-            }
-        }
-        return form;
-    }
-
     public void register(Long userId, Long eventId) {
         if (userId == null || eventId == null) {
             return;
@@ -162,5 +143,24 @@ public class EventService implements EventServiceInterface {
             event.setParticipants(updatedList);
             this.repository.save(this.mapper.toEntity(event));
         }
+    }
+
+    private EventForm addAddressIdToForm(EventForm form) {
+        if (form == null) {
+            return null;
+        }
+
+        if (form.getAddressId() == null) {
+            AddressForm newAddress = form.getAddressForm();
+
+            if (newAddress != null) {
+                this.addressService.insert(newAddress);
+                if (this.addressService.findAddressByFields(newAddress).isPresent()) {
+                    Long addressId = this.addressService.findAddressByFields(newAddress).get().getId();
+                    form.setAddressId(addressId);
+                }
+            }
+        }
+        return form;
     }
 }
