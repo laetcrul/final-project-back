@@ -19,13 +19,11 @@ public class InvitationService implements InvitationServiceInterface {
     private final InvitationRepository repository;
     private final InvitationMapper mapper;
     private final UserService userService;
-    private final EventService eventService;
 
-    public InvitationService(InvitationRepository repository, InvitationMapper mapper, UserService userService, EventService eventService) {
+    public InvitationService(InvitationRepository repository, InvitationMapper mapper, UserService userService) {
         this.repository = repository;
         this.mapper = mapper;
         this.userService = userService;
-        this.eventService = eventService;
     }
 
     public List<InvitationDTO> findAll() {
