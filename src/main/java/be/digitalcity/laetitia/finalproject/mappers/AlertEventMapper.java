@@ -40,6 +40,7 @@ public class AlertEventMapper {
         dto.setEvent(eventMapper.toDTO(entity.getEvent()));
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setUpdatedAt(entity.getUpdatedAt());
+        dto.setActive(entity.isActive());
 
         return dto;
     }
@@ -69,6 +70,7 @@ public class AlertEventMapper {
         entity.setEvent(eventMapper.toEntity(dto.getEvent()));
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
+        entity.setActive(dto.isActive());
 
         return entity;
     }

@@ -2,15 +2,18 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@SQLDelete(sql = "UPDATE topic SET is_active = false WHERE id=?")
+@Where(clause = "is_active=true")
 public class Topic extends BaseEntity<Long>{
 
     @Column(length = 100)

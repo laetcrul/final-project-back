@@ -2,9 +2,9 @@ package be.digitalcity.laetitia.finalproject.services.impl;
 
 import be.digitalcity.laetitia.finalproject.mappers.AlertEventMapper;
 import be.digitalcity.laetitia.finalproject.mappers.AlertTopicMapper;
-import be.digitalcity.laetitia.finalproject.models.dtos.AlertDTO;
-import be.digitalcity.laetitia.finalproject.models.dtos.AlertEventDTO;
-import be.digitalcity.laetitia.finalproject.models.dtos.AlertTopicDTO;
+import be.digitalcity.laetitia.finalproject.mappers.EventMapper;
+import be.digitalcity.laetitia.finalproject.mappers.TopicMapper;
+import be.digitalcity.laetitia.finalproject.models.dtos.*;
 import be.digitalcity.laetitia.finalproject.models.entities.*;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertEventForm;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertForm;
@@ -14,8 +14,6 @@ import be.digitalcity.laetitia.finalproject.repositories.*;
 import be.digitalcity.laetitia.finalproject.services.AlertServiceInterface;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,19 +26,25 @@ public class AlertService implements AlertServiceInterface {
     private final AlertEventMapper alertEventMapper;
     private final AlertTopicMapper alertTopicMapper;
     private final TopicRepository topicRepository;
-    private final EventRepository eventRepository;
+    private final TopicService topicService;
+    private final EventService eventService;
     private final UserRepository userRepository;
     private final AlertRepository alertRepository;
+    private final EventMapper eventMapper;
+    private final TopicMapper topicMapper;
 
-    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicRepository topicRepository, EventRepository eventRepository, UserRepository userRepository, AlertRepository alertRepository) {
+    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicRepository topicRepository, TopicService topicService, EventService eventService, UserRepository userRepository, AlertRepository alertRepository, EventMapper eventMapper, TopicMapper topicMapper) {
         this.alertEventRepository = alertEventRepository;
         this.alertTopicRepository = AlertTopicRepository;
         this.alertEventMapper = alertEventMapper;
         this.alertTopicMapper = alertTopicMapper;
         this.topicRepository = topicRepository;
-        this.eventRepository = eventRepository;
+        this.topicService = topicService;
+        this.eventService = eventService;
         this.userRepository = userRepository;
         this.alertRepository = alertRepository;
+        this.eventMapper = eventMapper;
+        this.topicMapper = topicMapper;
     }
 
     public List<AlertDTO> findAllAlerts(){
@@ -72,25 +76,26 @@ public class AlertService implements AlertServiceInterface {
     }
 
     public List<AlertTopicDTO> findAllByTopic(Long topicId) {
-        Optional<Topic> optionalTopic = topicRepository.findById(topicId);
-        return optionalTopic
-                .map(topic -> alertTopicMapper
-                        .toDTOs(alertTopicRepository.findAllByTopic(topic)))
-                .orElse(null);
+        TopicDTO topic = this.topicService.findById(topicId);
+
+        return this.alertTopicMapper.toDTOs(this.alertTopicRepository.findAllByTopic(this.topicMapper.toEntity(topic)));
     }
 
     public List<AlertEventDTO> findAllByEvent(Long eventId) {
-        Optional<Event> optionalEvent = this.eventRepository.findById(eventId);
-        return optionalEvent
-                .map(event -> alertEventMapper
-                        .toDTOs(alertEventRepository.findAllByEvent(event)))
-                .orElse(null);
+        if (eventId == null) {
+            return null;
+        }
+        EventDTO event = this.eventService.findById(eventId);
+
+        return this.alertEventMapper.toDTOs(
+                this.alertEventRepository.findAllByEvent(this.eventMapper.toEntity(event)));
     }
 
     public List<AlertDTO> findAllByCreator(Long creatorId){
         Optional<User> optionalCreator = this.userRepository.findById(creatorId);
         if(optionalCreator.isPresent()){
             return this.findAllAlerts().stream()
+                    .filter(AlertDTO::isActive)
                     .filter(alert -> alert.getCreator().getId().equals(creatorId))
                     .collect(Collectors.toList());
         }

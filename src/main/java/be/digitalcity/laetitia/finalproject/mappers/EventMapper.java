@@ -48,6 +48,7 @@ public class EventMapper {
                 .participants(userMapper.toDTOs(entity.getParticipants()))
                 .limitedToTeam(entity.isLimitedToTeam())
                 .limitedToDepartment(entity.isLimitedToDepartment())
+                .isActive(entity.isActive())
                 .build();
     }
 
@@ -95,6 +96,7 @@ public class EventMapper {
         entity.setLimitedToDepartment(dto.isLimitedToDepartment());
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
+        entity.setActive(dto.isActive());
 
         return entity;
     }

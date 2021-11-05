@@ -17,5 +17,6 @@ public class TopicDTO {
     private UserDTO creator;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private boolean isActive;
     private List<UserDTO> subscribedUsers;
 }

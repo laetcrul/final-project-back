@@ -40,6 +40,7 @@ public class InvitationMapper {
         entity.setResponseMessage(dto.getResponseMessage());
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
+        entity.setActive(dto.isActive());
 
         return entity;
     }
@@ -59,6 +60,7 @@ public class InvitationMapper {
                 .responseMessage(entity.getResponseMessage())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isActive(entity.isActive())
                 .build();
     }
 

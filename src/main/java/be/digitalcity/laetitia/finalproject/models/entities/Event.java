@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @SQLDelete(sql = "UPDATE event SET is_active = false WHERE id=?")
+@Where(clause = "is_active=true")
 public class Event extends BaseEntity<Long>{
 
     @Column(length = 250, nullable = false)

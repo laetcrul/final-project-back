@@ -25,6 +25,7 @@ public class AddressMapper {
                 .country(entity.getCountry())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .isActive(entity.isActive())
                 .build();
     }
 
@@ -67,6 +68,7 @@ public class AddressMapper {
         entity.setCountry(dto.getCountry());
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
+        entity.setActive(dto.isActive());
 
         return entity;
     }

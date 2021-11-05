@@ -1,6 +1,7 @@
 package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;

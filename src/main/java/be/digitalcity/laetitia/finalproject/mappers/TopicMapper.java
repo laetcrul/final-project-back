@@ -33,6 +33,7 @@ public class TopicMapper {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .subscribedUsers(userMapper.toDTOs(entity.getSubscribedUsers()))
+                .isActive(entity.isActive())
                 .build();
     }
 
@@ -70,6 +71,7 @@ public class TopicMapper {
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
         entity.setSubscribedUsers(userMapper.toEntities(dto.getSubscribedUsers()));
+        entity.setActive(dto.isActive());
         return entity;
     }
 }

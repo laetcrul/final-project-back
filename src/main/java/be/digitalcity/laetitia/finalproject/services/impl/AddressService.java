@@ -29,15 +29,12 @@ public class AddressService implements AddressServiceInterface {
         }
 
         return this.repository.findById(id)
-                .filter(BaseEntity::isActive)
                 .map(this.mapper::toDTO)
                 .orElseThrow(() -> new IllegalArgumentException("No active address for this id"));
     }
 
     public List<AddressDTO> findAll() {
-        return mapper.toDTOs(this.repository.findAll().stream()
-                .filter(BaseEntity::isActive)
-                .collect(Collectors.toList()));
+        return mapper.toDTOs(this.repository.findAll());
     }
 
     public void insert(AddressForm form) {

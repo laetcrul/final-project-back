@@ -17,6 +17,7 @@ public class AddressDTO {
     private String country;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private boolean isActive;
 
     @Override
     public boolean equals(Object o) {

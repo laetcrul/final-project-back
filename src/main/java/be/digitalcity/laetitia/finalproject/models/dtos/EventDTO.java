@@ -20,6 +20,7 @@ public class EventDTO {
     private AddressDTO address;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private boolean isActive;
     private UserDTO creator;
     private List<UserDTO> participants;
     private boolean limitedToTeam;

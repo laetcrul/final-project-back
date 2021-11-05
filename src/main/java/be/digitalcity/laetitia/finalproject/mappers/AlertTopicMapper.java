@@ -40,6 +40,7 @@ public class AlertTopicMapper {
         dto.setTopic(topicMapper.toDTO(entity.getTopic()));
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setUpdatedAt(entity.getUpdatedAt());
+        dto.setActive(entity.isActive());
 
         return dto;
     }
@@ -70,6 +71,7 @@ public class AlertTopicMapper {
         entity.setTopic(topicMapper.toEntity(dto.getTopic()));
         entity.setCreatedAt(dto.getCreatedAt());
         entity.setUpdatedAt(dto.getUpdatedAt());
+        entity.setActive(dto.isActive());
 
         return entity;
     }

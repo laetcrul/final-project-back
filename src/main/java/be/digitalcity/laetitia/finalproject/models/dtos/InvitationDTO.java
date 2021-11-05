@@ -18,4 +18,5 @@ public class InvitationDTO {
     private String responseMessage;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private boolean isActive;
 }
