@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.services.impl;
 import be.digitalcity.laetitia.finalproject.mappers.AddressMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.AddressDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.Address;
+import be.digitalcity.laetitia.finalproject.models.entities.BaseEntity;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import be.digitalcity.laetitia.finalproject.repositories.AddressRepository;
 import be.digitalcity.laetitia.finalproject.services.AddressServiceInterface;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService implements AddressServiceInterface {
@@ -26,12 +28,16 @@ public class AddressService implements AddressServiceInterface {
             return null;
         }
 
-        return mapper.toDTO(this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("no address for this id")));
+        return this.repository.findById(id)
+                .filter(BaseEntity::isActive)
+                .map(this.mapper::toDTO)
+                .orElseThrow(() -> new IllegalArgumentException("No active address for this id"));
     }
 
     public List<AddressDTO> findAll() {
-        return mapper.toDTOs(this.repository.findAll());
+        return mapper.toDTOs(this.repository.findAll().stream()
+                .filter(BaseEntity::isActive)
+                .collect(Collectors.toList()));
     }
 
     public void insert(AddressForm form) {
@@ -66,7 +72,7 @@ public class AddressService implements AddressServiceInterface {
 
     public Optional<AddressDTO> findAddressByFields(AddressForm form) {
         if (form == null) {
-            return null;
+            return Optional.empty();
         }
 
         Address toFind = this.mapper.toEntity(form);

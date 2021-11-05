@@ -1,6 +1,7 @@
 package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Data
+@SQLDelete(sql = "UPDATE address SET is_active = false WHERE id=?")
 public class Address extends BaseEntity<Long>{
 
     @Column(length = 100)
