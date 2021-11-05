@@ -76,5 +76,5 @@ INSERT INTO public.event_participants (event_id, participants_id) VALUES (1, 2);
 INSERT INTO public.invitation (id, message, response_message, status, event_id, recipient_id, sender_id, is_active, created_at) VALUES (3, 'Hey let''s go drink!', null, 3, 2, 1, 2, true, '2021-10-20');
 INSERT INTO public.invitation (id, message, response_message, status, event_id, recipient_id, sender_id, is_active, created_at) VALUES (4, 'Hey let''s go dance!', null, 3, 1, 2, 1, true, '2021-10-20');
 
-INSERT INTO public.alert (dtype, id, category, is_handled, message, response_message, event_id, topic_id, creator_id, is_active, created_at) VALUES ('AlertEvent', 1, 1, false, 'Really bad moovie', null, 3, null, 1, true, '2021-10-20');
+INSERT INTO public.alert (dtype, id, category, is_handled, message, response_message, event_id, topic_id, creator_id, is_active, created_at) VALUES ('AlertEvent', 1, 1, false, 'Really bad movie', null, 3, null, 1, true, '2021-10-20');
 INSERT INTO public.alert (dtype, id, category, is_handled, message, response_message, event_id, topic_id, creator_id, is_active, created_at) VALUES ('AlertEvent', 2, 0, false, 'invites to drink a lot', null, 2, null, 2, true, '2021-10-20');
