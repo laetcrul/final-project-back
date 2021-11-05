@@ -4,8 +4,11 @@ import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
 import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController

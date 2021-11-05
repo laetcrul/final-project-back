@@ -18,4 +18,5 @@ public class UserDTO {
     private boolean isNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
+    private String token;
 }

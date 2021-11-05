@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,6 +127,6 @@ public class UserService implements UserServiceInterface {
         if (s == null) {
             return null;
         }
-        return this.repository.findUsersByUsername(s);
+        return this.repository.findByUsername(s).orElseThrow(() -> new IllegalArgumentException("no user for this username"));
     }
 }

@@ -71,6 +71,14 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getAllRolesAsString() {
+        List<Role> roles = this.roles;
+        roles.addAll(this.group.getRoles());
+        return this.roles.stream()
+                .map(Role::getLabel)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return this.isAccountNonExpired;
