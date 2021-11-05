@@ -1,17 +1,17 @@
 package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Topic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Topic extends BaseEntity<Long>{
 
     @Column(length = 100)
     private String name;
@@ -25,8 +25,16 @@ public class Topic {
     @ManyToOne
     private User creator;
 
-    private Date creationDate;
-
     @ManyToMany
     private List<User> subscribedUsers;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDate.now();
+    }
 }

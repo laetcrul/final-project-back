@@ -4,6 +4,8 @@ import be.digitalcity.laetitia.finalproject.util.enums.STATUS;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 public class InvitationDTO {
@@ -14,4 +16,6 @@ public class InvitationDTO {
     private EventDTO event;
     private STATUS status;
     private String responseMessage;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 }

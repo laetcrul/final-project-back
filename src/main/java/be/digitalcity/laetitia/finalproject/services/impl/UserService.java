@@ -9,6 +9,8 @@ import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.repositories.RoleRepository;
 import be.digitalcity.laetitia.finalproject.repositories.UserRepository;
 import be.digitalcity.laetitia.finalproject.services.UserServiceInterface;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class UserService implements UserServiceInterface {
     }
 
     public List<UserDTO> findAll() {
-        return mapper.toDTOs(repository.findAll());
+        return this.mapper.toDTOs(this.repository.findAll());
     }
 
     public UserDTO findById(Long id){
@@ -41,19 +43,25 @@ public class UserService implements UserServiceInterface {
         }
 
         if(this.repository.findById(id).isPresent()){
-            return mapper.toDTO(this.repository.findById(id).get());
+            return this.mapper.toDTO(this.repository.findById(id).get());
         } else throw new IllegalArgumentException("No user found for this id");
     }
 
     public List<UserDTO> findALlByDepartment(Long id){
-        DepartmentDTO department = departmentService.findById(id);
+        if (id == null) {
+            return null;
+        }
+        DepartmentDTO department = this.departmentService.findById(id);
         return this.findAll().stream()
                 .filter(user -> user.getTeam().getDepartment().equals(department))
                 .collect(Collectors.toList());
     }
 
     public List<UserDTO> findAllByTeam(Long id) {
-        TeamDTO team = teamService.findById(id);
+        if (id == null) {
+            return null;
+        }
+        TeamDTO team = this.teamService.findById(id);
 
         return this.findAll().stream()
                 .filter(user -> user.getTeam().equals(team))
@@ -61,32 +69,48 @@ public class UserService implements UserServiceInterface {
     }
 
     public void disable(Long id) {
+        if (id == null) {
+            return;
+        }
         User user = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
         user.setEnabled(false);
+
+        this.repository.save(user);
     }
 
     public void enable(Long id) {
+        if (id == null) {
+            return;
+        }
         User user = this.repository.findById(id).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
         user.setEnabled(true);
+
+        this.repository.save(user);
     }
 
     public void addRole(Long userId, Long roleId){
-        User user = repository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
+        if (userId == null || roleId == null) {
+            return;
+        }
+        User user = this.repository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
+        Role role = this.roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
 
-        if(user.getRoles().contains(role)){
+        if(user.getRoles().contains(role) || user.getGroup().getRoles().contains(role)){
             return;
         }
         List<Role> roles = user.getRoles();
         roles.add(role);
         user.setRoles(roles);
 
-        repository.save(user);
+        this.repository.save(user);
     }
 
     public void removeRole(Long userId, Long roleId) {
-        User user = repository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
+        if (userId == null || roleId == null) {
+            return;
+        }
+        User user = this.repository.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
+        Role role = this.roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("No user for this ID"));
 
         if(!user.getRoles().contains(role)){
             return;
@@ -96,6 +120,14 @@ public class UserService implements UserServiceInterface {
         roles.remove(role);
         user.setRoles(roles);
 
-        repository.save(user);
+        this.repository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        if (s == null) {
+            return null;
+        }
+        return this.repository.findUsersByUsername(s);
     }
 }

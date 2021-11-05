@@ -1,18 +1,17 @@
 package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Event {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Event extends BaseEntity<Long>{
 
     @Column(length = 250, nullable = false)
     private String name;
@@ -23,15 +22,13 @@ public class Event {
     @Column(length = 250)
     private String image;
 
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     private Topic topic;
 
     @ManyToOne
     private Address address;
-
-    private Date creationDate;
 
     @ManyToOne
     private User creator;
@@ -49,5 +46,15 @@ public class Event {
 
     public Department getCreatorDepartment(){
         return this.getCreatorTeam().getDepartment();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDate.now();
     }
 }

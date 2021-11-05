@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.dtos;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
@@ -14,6 +15,8 @@ public class AddressDTO {
     private int postcode;
     private String city;
     private String country;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     @Override
     public boolean equals(Object o) {

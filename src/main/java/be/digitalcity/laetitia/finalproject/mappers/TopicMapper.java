@@ -30,7 +30,8 @@ public class TopicMapper {
                 .description(entity.getDescription())
                 .image(entity.getImage())
                 .creator(userMapper.toDTO(entity.getCreator()))
-                .creationDate(entity.getCreationDate())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .subscribedUsers(userMapper.toDTOs(entity.getSubscribedUsers()))
                 .build();
     }
@@ -66,7 +67,8 @@ public class TopicMapper {
         entity.setDescription(dto.getDescription());
         entity.setImage(dto.getImage());
         entity.setCreator(userMapper.toEntity(userService.findById(dto.getCreator().getId())));
-        entity.setCreationDate(dto.getCreationDate());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdatedAt(dto.getUpdatedAt());
         entity.setSubscribedUsers(userMapper.toEntities(dto.getSubscribedUsers()));
         return entity;
     }

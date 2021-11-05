@@ -4,6 +4,7 @@ import be.digitalcity.laetitia.finalproject.models.entities.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,10 +15,11 @@ public class EventDTO {
     private String name;
     private String description;
     private String image;
-    private Date date;
+    private LocalDate date;
     private TopicDTO topic;
     private AddressDTO address;
-    private Date creationDate;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
     private UserDTO creator;
     private List<UserDTO> participants;
     private boolean limitedToTeam;

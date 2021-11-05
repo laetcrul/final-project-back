@@ -91,7 +91,7 @@ public class AlertService implements AlertServiceInterface {
         Optional<User> optionalCreator = this.userRepository.findById(creatorId);
         if(optionalCreator.isPresent()){
             return this.findAllAlerts().stream()
-                    .filter(alert -> alert.getCreator().getId() == creatorId)
+                    .filter(alert -> alert.getCreator().getId().equals(creatorId))
                     .collect(Collectors.toList());
         }
         else return null;
@@ -101,18 +101,14 @@ public class AlertService implements AlertServiceInterface {
         if (form == null) {
             return;
         }
-        AlertEvent toSave = alertEventMapper.toEntity(form);
-        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
-        this.alertEventRepository.save(toSave);
+        this.alertEventRepository.save(this.alertEventMapper.toEntity(form));
     }
 
     public void insertTopicAlert(AlertTopicForm form){
         if (form == null) {
             return;
         }
-        AlertTopic toSave = alertTopicMapper.toEntity(form);
-        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
-        this.alertTopicRepository.save(toSave);
+        this.alertTopicRepository.save(alertTopicMapper.toEntity(form));
     }
 
     public void updateAlert(Long id, AlertForm form) {

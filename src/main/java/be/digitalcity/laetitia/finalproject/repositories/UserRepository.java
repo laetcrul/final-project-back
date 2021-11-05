@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByTeamId(Long teamId);
+
+    User findUsersByUsername(String username);
 }

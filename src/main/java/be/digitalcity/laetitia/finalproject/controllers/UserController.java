@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/team/{id}")
-    public ResponseEntity<List<UserDTO>> findAllByTeam(Long id) {
+    public ResponseEntity<List<UserDTO>> findAllByTeam(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.findAllByTeam(id));
     }
 

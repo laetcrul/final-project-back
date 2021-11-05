@@ -23,6 +23,8 @@ public class AddressMapper {
                 .postcode(entity.getPostCode())
                 .city(entity.getCity())
                 .country(entity.getCountry())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 
@@ -63,6 +65,8 @@ public class AddressMapper {
         entity.setCity(dto.getCity());
         entity.setPostCode(dto.getPostcode());
         entity.setCountry(dto.getCountry());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdatedAt(dto.getUpdatedAt());
 
         return entity;
     }

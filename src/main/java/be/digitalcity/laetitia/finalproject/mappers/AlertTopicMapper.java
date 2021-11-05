@@ -38,7 +38,8 @@ public class AlertTopicMapper {
         dto.setHandled(entity.isHandled());
         dto.setResponseMessage(entity.getResponseMessage());
         dto.setTopic(topicMapper.toDTO(entity.getTopic()));
-        dto.setCreationDate(entity.getCreationDate());
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setUpdatedAt(entity.getUpdatedAt());
 
         return dto;
     }
@@ -67,7 +68,8 @@ public class AlertTopicMapper {
         entity.setHandled(dto.isHandled());
         entity.setResponseMessage(dto.getResponseMessage());
         entity.setTopic(topicMapper.toEntity(dto.getTopic()));
-        entity.setCreationDate(dto.getCreationDate());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdatedAt(dto.getUpdatedAt());
 
         return entity;
     }

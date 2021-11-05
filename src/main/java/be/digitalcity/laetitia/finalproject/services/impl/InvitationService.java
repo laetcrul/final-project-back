@@ -75,8 +75,10 @@ public class InvitationService implements InvitationServiceInterface {
         }
 
         InvitationDTO invitation = this.findById(form.getInvitationId());
-        invitation.setMessage(form.getResponseMessage());
+        invitation.setResponseMessage(form.getResponseMessage());
         invitation.setStatus(form.getStatus());
+
+        this.repository.save(mapper.toEntity(invitation));
     }
 
     public void delete(Long id) {

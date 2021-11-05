@@ -54,10 +54,7 @@ public class TopicService implements TopicServiceInterface {
         if (form == null) {
             return;
         }
-        Topic toSave = mapper.toEntity(form);
-        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
-
-        this.repository.save(toSave);
+        this.repository.save(mapper.toEntity(form));
     }
 
     public void update(Long id, TopicForm form) {

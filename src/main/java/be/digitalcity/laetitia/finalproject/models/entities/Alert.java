@@ -2,17 +2,17 @@ package be.digitalcity.laetitia.finalproject.models.entities;
 
 import be.digitalcity.laetitia.finalproject.util.enums.ALERT_CATEGORY;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Inheritance
 @Data
-public class Alert {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Alert extends BaseEntity<Long>{
 
     @Column(length = 500)
     private String message;
@@ -27,5 +27,13 @@ public class Alert {
     @Column(length = 500)
     private String responseMessage;
 
-    private Date creationDate;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDate.now();
+    }
 }

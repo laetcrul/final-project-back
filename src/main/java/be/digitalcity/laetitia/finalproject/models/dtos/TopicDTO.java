@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.models.dtos;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class TopicDTO {
     private String description;
     private String image;
     private UserDTO creator;
-    private Date creationDate;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
     private List<UserDTO> subscribedUsers;
 }

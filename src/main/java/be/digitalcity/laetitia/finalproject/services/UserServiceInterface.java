@@ -1,4 +1,6 @@
 package be.digitalcity.laetitia.finalproject.services;
 
-public interface UserServiceInterface {
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserServiceInterface extends UserDetailsService {
 }

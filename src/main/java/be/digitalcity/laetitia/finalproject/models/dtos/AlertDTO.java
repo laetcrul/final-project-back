@@ -4,6 +4,7 @@ import be.digitalcity.laetitia.finalproject.util.enums.ALERT_CATEGORY;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -14,5 +15,6 @@ public abstract class AlertDTO {
     private ALERT_CATEGORY category;
     private boolean isHandled;
     private String responseMessage;
-    private Date creationDate;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 }

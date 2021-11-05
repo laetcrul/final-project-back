@@ -88,23 +88,26 @@ public class EventService implements EventServiceInterface {
 
         EventForm formWithAddressId = this.addAddressIdToForm(form);
 
-        Event toSave = this.mapper.toEntity(formWithAddressId);
-        toSave.setCreationDate(Date.valueOf(LocalDate.now()));
-        this.repository.save(toSave);
+        this.repository.save(this.mapper.toEntity(formWithAddressId));
     }
 
     public void update(Long id, EventForm form) {
         if (form == null) {
             return;
         }
-        EventForm finalForm = this.addAddressIdToForm(form);
-        Event toUpdate = this.mapper.toEntity(finalForm);
-        EventDTO oldDTO = this.findById(id);
-        toUpdate.setCreationDate(oldDTO.getCreationDate());
-        toUpdate.setParticipants(this.userMapper.toEntities(oldDTO.getParticipants()));
-        toUpdate.setId(id);
 
-        this.repository.save(toUpdate);
+        EventForm finalForm = this.addAddressIdToForm(form);
+
+        EventDTO toUpdate = this.findById(id);
+        toUpdate.setName(finalForm.getName());
+        toUpdate.setDescription(finalForm.getDescription());
+        toUpdate.setImage(finalForm.getImage());
+        toUpdate.setDate(finalForm.getDate());
+        toUpdate.setAddress(this.addressService.findById(form.getAddressId()));
+        toUpdate.setLimitedToTeam(form.isLimitedToTeam());
+        toUpdate.setLimitedToDepartment(form.isLimitedToDepartment());
+
+        this.repository.save(this.mapper.toEntity(toUpdate));
     }
 
     public void delete(Long id) {

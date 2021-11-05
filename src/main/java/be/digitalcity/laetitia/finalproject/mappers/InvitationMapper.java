@@ -38,6 +38,8 @@ public class InvitationMapper {
         entity.setEvent(eventMapper.toEntity(dto.getEvent()));
         entity.setStatus(dto.getStatus());
         entity.setResponseMessage(dto.getResponseMessage());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdatedAt(dto.getUpdatedAt());
 
         return entity;
     }
@@ -55,6 +57,8 @@ public class InvitationMapper {
                 .event(eventMapper.toDTO(entity.getEvent()))
                 .status(entity.getStatus())
                 .responseMessage(entity.getResponseMessage())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 

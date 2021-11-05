@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ class EventMapperTest {
         User userEntity = new User();
         Address addressEntity = new Address();
         Topic topicEntity = new Topic();
-        Date date = new Date();
+        LocalDate date = LocalDate.of(2000, 5, 13);
 
         Event entity = new Event();
         entity.setId(42L);
@@ -48,7 +49,7 @@ class EventMapperTest {
         entity.setDate(date);
         entity.setTopic(topicEntity);
         entity.setAddress(addressEntity);
-        entity.setCreationDate(date);
+        entity.setCreatedAt(date);
         entity.setCreator(userEntity);
         entity.setParticipants(List.of(userEntity));
         entity.setLimitedToTeam(true);
@@ -72,7 +73,7 @@ class EventMapperTest {
         assertEquals(date, eventDTO.getDate());
         assertEquals(topicDTO, eventDTO.getTopic());
         assertEquals(addressDTO, eventDTO.getAddress());
-        assertEquals(date, eventDTO.getCreationDate());
+        assertEquals(date, eventDTO.getCreatedAt());
         assertEquals(userDTO, eventDTO.getCreator());
         assertEquals(1, eventDTO.getParticipants().size());
         assertTrue(eventDTO.isLimitedToTeam());

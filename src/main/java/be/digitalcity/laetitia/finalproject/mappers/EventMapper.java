@@ -42,7 +42,8 @@ public class EventMapper {
                 .date(entity.getDate())
                 .topic(topicMapper.toDTO(entity.getTopic()))
                 .address(addressMapper.toDTO(entity.getAddress()))
-                .creationDate(entity.getCreationDate())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .creator(userMapper.toDTO(entity.getCreator()))
                 .participants(userMapper.toDTOs(entity.getParticipants()))
                 .limitedToTeam(entity.isLimitedToTeam())
@@ -92,6 +93,8 @@ public class EventMapper {
         entity.setParticipants(userMapper.toEntities(dto.getParticipants()));
         entity.setLimitedToTeam(dto.isLimitedToTeam());
         entity.setLimitedToDepartment(dto.isLimitedToDepartment());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdatedAt(dto.getUpdatedAt());
 
         return entity;
     }

@@ -4,7 +4,9 @@ import be.digitalcity.laetitia.finalproject.models.dtos.TopicDTO;
 import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
 import be.digitalcity.laetitia.finalproject.services.impl.TopicService;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class Topic {
     }
 
     @PutMapping("/subscribe")
-    public ResponseEntity<String> subscribe(@Param("userId") Long userId, @Param("topicId") Long topicId){
+    public ResponseEntity<String> subscribe(@Param("userId") Long userId, @Param("topicId") Long topicId) {
         this.service.subscribe(userId, topicId);
         return ResponseEntity.ok("Subscribed");
     }
@@ -61,5 +63,15 @@ public class Topic {
     public ResponseEntity<String> delete(@PathVariable Long id) {
         this.service.delete(id);
         return ResponseEntity.ok("Topic deleted");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(
+            IllegalArgumentException e
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
     }
 }
