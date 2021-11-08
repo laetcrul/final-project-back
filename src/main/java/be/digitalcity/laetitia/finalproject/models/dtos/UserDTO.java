@@ -13,8 +13,6 @@ public class UserDTO {
     private String username;
     private String image;
     private TeamDTO team;
-    private GroupDTO group;
-    private Set<RoleDTO> roles;
     private boolean isAccountNotExpired;
     private boolean isNonLocked;
     private boolean isCredentialsNonExpired;

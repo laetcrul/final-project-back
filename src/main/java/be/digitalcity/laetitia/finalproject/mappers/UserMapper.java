@@ -10,13 +10,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
     private final TeamMapper teamMapper;
-    private final RoleMapper roleMapper;
-    private final GroupMapper groupMapper;
 
-    public UserMapper(TeamMapper teamMapper, RoleMapper roleMapper, GroupMapper groupMapper) {
+    public UserMapper(TeamMapper teamMapper) {
         this.teamMapper = teamMapper;
-        this.roleMapper = roleMapper;
-        this.groupMapper = groupMapper;
     }
 
     public UserDTO toDTO(User entity){
@@ -29,8 +25,6 @@ public class UserMapper {
                 .username(entity.getUsername())
                 .image(entity.getImage())
                 .team(teamMapper.toDTO(entity.getTeam()))
-                .group(groupMapper.toDTO(entity.getGroup()))
-                .roles(roleMapper.toDTOs(entity.getRoles()))
                 .isAccountNotExpired(entity.isAccountNonExpired())
                 .isNonLocked(entity.isNonLocked())
                 .isCredentialsNonExpired(entity.isCredentialsNonExpired())
@@ -58,8 +52,6 @@ public class UserMapper {
         entity.setUsername(dto.getUsername());
         entity.setImage(dto.getImage());
         entity.setTeam(teamMapper.toEntity(dto.getTeam()));
-        entity.setGroup(groupMapper.toEntity(dto.getGroup()));
-        entity.setRoles(roleMapper.toEntities(dto.getRoles()));
         entity.setAccountNonExpired(dto.isAccountNotExpired());
         entity.setNonLocked(dto.isNonLocked());
         entity.setCredentialsNonExpired(dto.isCredentialsNonExpired());
