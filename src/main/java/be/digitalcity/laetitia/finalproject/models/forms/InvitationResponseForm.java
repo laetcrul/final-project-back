@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class InvitationResponseForm {
-    private Long invitationId;
     private STATUS status;
     private String responseMessage;
 }

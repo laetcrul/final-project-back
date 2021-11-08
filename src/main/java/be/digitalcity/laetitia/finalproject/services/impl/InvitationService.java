@@ -69,12 +69,12 @@ public class InvitationService implements InvitationServiceInterface {
         this.repository.save(toSave);
     }
 
-    public void respond(InvitationResponseForm form) {
+    public void respond(Long invitationId, InvitationResponseForm form) {
         if (form == null) {
             return;
         }
 
-        InvitationDTO invitation = this.findById(form.getInvitationId());
+        InvitationDTO invitation = this.findById(invitationId);
         invitation.setResponseMessage(form.getResponseMessage());
         invitation.setStatus(form.getStatus());
 

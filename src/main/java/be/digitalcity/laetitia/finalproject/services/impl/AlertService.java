@@ -25,7 +25,6 @@ public class AlertService implements AlertServiceInterface {
     private final AlertTopicRepository alertTopicRepository;
     private final AlertEventMapper alertEventMapper;
     private final AlertTopicMapper alertTopicMapper;
-    private final TopicRepository topicRepository;
     private final TopicService topicService;
     private final EventService eventService;
     private final UserRepository userRepository;
@@ -33,12 +32,11 @@ public class AlertService implements AlertServiceInterface {
     private final EventMapper eventMapper;
     private final TopicMapper topicMapper;
 
-    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicRepository topicRepository, TopicService topicService, EventService eventService, UserRepository userRepository, AlertRepository alertRepository, EventMapper eventMapper, TopicMapper topicMapper) {
+    public AlertService(AlertEventRepository alertEventRepository, AlertTopicRepository AlertTopicRepository, AlertEventMapper alertEventMapper, AlertTopicMapper alertTopicMapper, TopicService topicService, EventService eventService, UserRepository userRepository, AlertRepository alertRepository, EventMapper eventMapper, TopicMapper topicMapper) {
         this.alertEventRepository = alertEventRepository;
         this.alertTopicRepository = AlertTopicRepository;
         this.alertEventMapper = alertEventMapper;
         this.alertTopicMapper = alertTopicMapper;
-        this.topicRepository = topicRepository;
         this.topicService = topicService;
         this.eventService = eventService;
         this.userRepository = userRepository;
