@@ -6,6 +6,7 @@ import be.digitalcity.laetitia.finalproject.services.impl.AddressService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +26,14 @@ public class AddressController {
     }
 
     @PostMapping("")
+    @Secured({"ROLE_CREATE_ADDRESS"})
     public ResponseEntity<String> create(@RequestBody AddressForm form){
         this.service.insert(form);
         return ResponseEntity.ok("Address saved");
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_CREATE_ADDRESS"})
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody AddressForm form) {
         this.service.update(id, form);
         return ResponseEntity.ok("Address updated");
@@ -38,6 +41,7 @@ public class AddressController {
 
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_DELETE_ADDRESS"})
     public ResponseEntity<String> delete(@PathVariable Long id) {
         this.service.delete(id);
         return ResponseEntity.ok("Address deleted");

@@ -3,6 +3,7 @@ package be.digitalcity.laetitia.finalproject.controllers;
 import be.digitalcity.laetitia.finalproject.models.dtos.AlertDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.AlertEventDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.AlertTopicDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Alert;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertEventForm;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertForm;
 import be.digitalcity.laetitia.finalproject.models.forms.AlertResponseForm;
@@ -10,8 +11,13 @@ import be.digitalcity.laetitia.finalproject.models.forms.AlertTopicForm;
 import be.digitalcity.laetitia.finalproject.services.impl.AlertService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,13 +30,19 @@ public class AlertController {
     }
 
     @GetMapping("")
+    @Secured({"ROLE_MANAGE_ALERTS"})
     public ResponseEntity<List<AlertDTO>> findAll() {
         return ResponseEntity.ok(service.findAllAlerts());
     }
 
     @GetMapping("/created_by/{id}")
-    public ResponseEntity<List<AlertDTO>> findByCreator(@PathVariable Long id) {
-        return ResponseEntity.ok(this.service.findAllByCreator(id));
+    @Secured({"ROLE_MANAGE_OWNED_ELEMENTS"})
+    public ResponseEntity<List<AlertDTO>> findByCreator(@PathVariable Alert alert) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!alert.getCreator().equals(user)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ArrayList<>());
+        }
+        return ResponseEntity.ok(this.service.findAllByCreator(alert.getId()));
     }
 
     @GetMapping("/topic/{id}")

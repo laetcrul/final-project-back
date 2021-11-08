@@ -3,20 +3,36 @@ INSERT INTO public.address (id, city, country, number, post_code, street, is_act
 INSERT INTO public.address (id, city, country, number, post_code, street, is_active, created_at) VALUES (3, 'Anvers', 'Belgium', 78, 2400, 'Grote Markt', true, '2021-10-20');
 INSERT INTO public.address (id, city, country, number, post_code, street, is_active, created_at) VALUES (4, 'Brussels', 'Belgium', 45, 2700, 'Rue du Trone', true, '2021-10-20');
 
-INSERT INTO public.role (id, label) VALUES (1, 'RAISE_ALERT');
-INSERT INTO public.role (id, label) VALUES (2, 'CREATE_EVENT');
-INSERT INTO public.role (id, label) VALUES (3, 'SEE_PARTICIPANTS');
-INSERT INTO public.role (id, label) VALUES (4, 'SEE_ALERTS');
+INSERT INTO public.role (id, label) VALUES (4, 'ROLE_SEE_ALERTS');
+INSERT INTO public.role (id, label) VALUES (2, 'ROLE_CREATE_EVENT');
+INSERT INTO public.role (id, label) VALUES (1, 'ROLE_RAISE_ALERT');
+INSERT INTO public.role (id, label) VALUES (3, 'ROLE_SEE_PARTICIPANTS');
+INSERT INTO public.role (id, label) VALUES (5, 'ROLE_SEE_EVENTS');
+INSERT INTO public.role (id, label) VALUES (6, 'ROLE_MANAGE_ALERTS');
+INSERT INTO public.role (id, label) VALUES (7, 'ROLE_MANAGE_OWNED_ELEMENTS');
+INSERT INTO public.role (id, label) VALUES (8, 'ROLE_MANAGE_TOPICS');
+INSERT INTO public.role (id, label) VALUES (9, 'ROLE_MANAGE_EVENTS');
+INSERT INTO public.role (id, label) VALUES (10, 'ROLE_CREATE_ADDRESS');
+INSERT INTO public.role (id, label) VALUES (11, 'ROLE_MANAGE_USERS');
+INSERT INTO public.role (id, label) VALUES (12, 'ROLE_CREATE_INVITATION');
+INSERT INTO public.role (id, label) VALUES (13, 'ROLE_CREATE_TOPIC');
 
 INSERT INTO public.security_group (id, label) VALUES (1, 'User');
 INSERT INTO public.security_group (id, label) VALUES (2, 'Admin');
 
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (1, 1);
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (1, 2);
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (2, 1);
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (2, 2);
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (2, 3);
-INSERT INTO public.security_group_roles (group_id, roles_id) VALUES (2, 4);
+INSERT INTO public.role (id, label) VALUES (4, 'ROLE_SEE_ALERTS');
+INSERT INTO public.role (id, label) VALUES (2, 'ROLE_CREATE_EVENT');
+INSERT INTO public.role (id, label) VALUES (1, 'ROLE_RAISE_ALERT');
+INSERT INTO public.role (id, label) VALUES (3, 'ROLE_SEE_PARTICIPANTS');
+INSERT INTO public.role (id, label) VALUES (5, 'ROLE_SEE_EVENTS');
+INSERT INTO public.role (id, label) VALUES (6, 'ROLE_MANAGE_ALERTS');
+INSERT INTO public.role (id, label) VALUES (7, 'ROLE_MANAGE_OWNED_ELEMENTS');
+INSERT INTO public.role (id, label) VALUES (8, 'ROLE_MANAGE_TOPICS');
+INSERT INTO public.role (id, label) VALUES (9, 'ROLE_MANAGE_EVENTS');
+INSERT INTO public.role (id, label) VALUES (10, 'ROLE_CREATE_ADDRESS');
+INSERT INTO public.role (id, label) VALUES (11, 'ROLE_MANAGE_USERS');
+INSERT INTO public.role (id, label) VALUES (12, 'ROLE_CREATE_INVITATION');
+INSERT INTO public.role (id, label) VALUES (13, 'ROLE_CREATE_TOPIC');
 
 INSERT INTO public.department (id, label) VALUES (1, 'Production');
 INSERT INTO public.department (id, label) VALUES (2, 'Research');
