@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "security_group")
@@ -16,6 +17,6 @@ public class Group {
     @Column(length = 100)
     private String label;
 
-    @ManyToMany
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
+    private Set<Role> roles;
 }

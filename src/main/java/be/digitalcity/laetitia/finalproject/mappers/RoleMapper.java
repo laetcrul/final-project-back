@@ -5,6 +5,7 @@ import be.digitalcity.laetitia.finalproject.models.entities.Role;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,14 +22,24 @@ public class RoleMapper {
                 .build();
     }
 
-    public List<RoleDTO> toDTOs(List<Role> entities){
+    public Set<RoleDTO> toDTOs(Set<Role> entities){
         if (entities == null) {
             return null;
         }
 
         return entities.stream()
                 .map(this::toDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
+    }
+
+    public Set<RoleDTO> toDTOs(List<Role> entities){
+        if (entities == null) {
+            return null;
+        }
+
+        return entities.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toSet());
     }
 
     public Role toEntity(RoleDTO dto) {
@@ -43,13 +54,13 @@ public class RoleMapper {
         return entity;
     }
 
-    public List<Role> toEntities(List<RoleDTO> dtos){
+    public Set<Role> toEntities(Set<RoleDTO> dtos){
         if (dtos == null) {
             return null;
         }
 
         return dtos.stream()
                 .map(this::toEntity)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

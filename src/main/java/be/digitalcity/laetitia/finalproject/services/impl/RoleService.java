@@ -7,6 +7,8 @@ import be.digitalcity.laetitia.finalproject.services.RoleServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleService implements RoleServiceInterface {
@@ -18,7 +20,7 @@ public class RoleService implements RoleServiceInterface {
         this.mapper = mapper;
     }
 
-    public List<RoleDTO> findAll() {
+    public Set<RoleDTO> findAll() {
         return this.mapper.toDTOs(this.repository.findAll());
     }
 }

@@ -1,10 +1,15 @@
 package be.digitalcity.laetitia.finalproject.controllers;
 
 import be.digitalcity.laetitia.finalproject.models.dtos.EventDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Event;
 import be.digitalcity.laetitia.finalproject.models.forms.EventForm;
 import be.digitalcity.laetitia.finalproject.services.impl.EventService;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +21,12 @@ public class EventController {
 
     public EventController(EventService service) {
         this.service = service;
+    }
+
+    @GetMapping("")
+    @Secured(value = {"ROLE_SEE_EVENTS"})
+    public ResponseEntity<List<EventDTO>> findAll() {
+        return ResponseEntity.ok(this.service.findAll());
     }
 
     @GetMapping("/registered/{id}")
@@ -39,9 +50,15 @@ public class EventController {
         return ResponseEntity.ok("Event created");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody EventForm form) {
-        this.service.update(id, form);
+    @PutMapping("/{event}")
+    public ResponseEntity<String> update(@PathVariable Event event, @RequestBody EventForm form) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!event.getCreator().getUsername().equals(user.getUsername())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("");
+        }
+
+        this.service.update(event.getId(), form);
         return ResponseEntity.ok("Event updated");
     }
 

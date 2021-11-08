@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -46,11 +47,11 @@ public class User implements UserDetails {
     @ManyToOne
     private Team team;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
 
-    @ManyToMany
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     private boolean isAccountNonExpired;
 
@@ -62,7 +63,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Role> roles = this.roles;
+        Set<Role> roles = this.roles;
         roles.addAll(this.group.getRoles());
 
         return this.roles.stream()
@@ -72,7 +73,7 @@ public class User implements UserDetails {
     }
 
     public List<String> getAllRolesAsString() {
-        List<Role> roles = this.roles;
+        Set<Role> roles = this.roles;
         roles.addAll(this.group.getRoles());
         return this.roles.stream()
                 .map(Role::getLabel)

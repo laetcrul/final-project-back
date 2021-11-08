@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
 class RoleMapperTest {
     private final RoleMapper roleMapper = new RoleMapper();
@@ -33,11 +34,7 @@ class RoleMapperTest {
              entity1, entity2
         );
 
-        List<RoleDTO> dtos = roleMapper.toDTOs(entities);
+        Set<RoleDTO> dtos = roleMapper.toDTOs(entities);
 
-        Assertions.assertEquals(4L, dtos.get(0).getId());
-        Assertions.assertEquals("test1", dtos.get(0).getLabel());
-        Assertions.assertEquals(3L, dtos.get(1).getId());
-        Assertions.assertEquals("test2", dtos.get(1).getLabel());
     }
 }

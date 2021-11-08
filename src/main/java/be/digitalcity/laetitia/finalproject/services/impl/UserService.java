@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,7 +98,7 @@ public class UserService implements UserServiceInterface {
         if(user.getRoles().contains(role) || user.getGroup().getRoles().contains(role)){
             return;
         }
-        List<Role> roles = user.getRoles();
+        Set<Role> roles = user.getRoles();
         roles.add(role);
         user.setRoles(roles);
 
@@ -115,7 +116,7 @@ public class UserService implements UserServiceInterface {
             return;
         }
 
-        List<Role> roles = user.getRoles();
+        Set<Role> roles = user.getRoles();
         roles.remove(role);
         user.setRoles(roles);
 

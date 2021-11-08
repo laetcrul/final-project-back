@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -13,7 +14,7 @@ public class UserDTO {
     private String image;
     private TeamDTO team;
     private GroupDTO group;
-    private List<RoleDTO> roles;
+    private Set<RoleDTO> roles;
     private boolean isAccountNotExpired;
     private boolean isNonLocked;
     private boolean isCredentialsNonExpired;

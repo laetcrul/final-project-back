@@ -4,11 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
 public class GroupDTO {
     private Long id;
     private String label;
-    private List<RoleDTO> roles;
+    private Set<RoleDTO> roles;
 }

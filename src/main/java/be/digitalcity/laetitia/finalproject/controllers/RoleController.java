@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/role")
@@ -19,7 +20,7 @@ public class RoleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<RoleDTO>> findAll() {
+    public ResponseEntity<Set<RoleDTO>> findAll() {
         return ResponseEntity.ok(this.service.findAll());
     }
 }
