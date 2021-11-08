@@ -76,7 +76,6 @@ public class InvitationMapper {
         }
 
         Invitation entity = new Invitation();
-        entity.setSender(userMapper.toEntity(userService.findById(form.getSenderId())));
         entity.setRecipient(userMapper.toEntity(userService.findById(form.getRecipientId())));
         entity.setEvent(eventMapper.toEntity(eventService.findById(form.getEventId())));
         entity.setMessage(form.getMessage());

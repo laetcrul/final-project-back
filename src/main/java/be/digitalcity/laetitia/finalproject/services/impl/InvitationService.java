@@ -4,6 +4,7 @@ import be.digitalcity.laetitia.finalproject.mappers.InvitationMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.InvitationDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.Invitation;
+import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.InvitationForm;
 import be.digitalcity.laetitia.finalproject.models.forms.InvitationResponseForm;
 import be.digitalcity.laetitia.finalproject.repositories.InvitationRepository;
@@ -59,13 +60,13 @@ public class InvitationService implements InvitationServiceInterface {
                 .collect(Collectors.toList());
     }
 
-    public void insert(InvitationForm form) {
+    public void insert(InvitationForm form, User sender) {
         if (form == null) {
             return;
         }
-        System.out.println(form);
         Invitation toSave = this.mapper.toEntity(form);
         toSave.setStatus(STATUS.PENDING);
+        toSave.setSender(sender);
         this.repository.save(toSave);
     }
 

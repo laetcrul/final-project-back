@@ -6,6 +6,7 @@ import be.digitalcity.laetitia.finalproject.models.dtos.EventDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.TopicDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.Event;
+import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import be.digitalcity.laetitia.finalproject.models.forms.EventForm;
 import be.digitalcity.laetitia.finalproject.repositories.EventRepository;
@@ -81,14 +82,16 @@ public class EventService implements EventServiceInterface {
                 .collect(Collectors.toList());
     }
 
-    public void insert(EventForm form) {
+    public void insert(EventForm form, User user) {
         if (form == null) {
             return;
         }
 
         EventForm formWithAddressId = this.addAddressIdToForm(form);
 
-        this.repository.save(this.mapper.toEntity(formWithAddressId));
+        Event toSave = this.mapper.toEntity(formWithAddressId);
+        toSave.setCreator(user);
+        this.repository.save(toSave);
     }
 
     public void update(Long id, EventForm form) {

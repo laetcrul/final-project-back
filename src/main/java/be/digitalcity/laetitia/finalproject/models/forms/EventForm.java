@@ -14,7 +14,6 @@ public class EventForm {
     private LocalDate date;
     private Long addressId;
     private AddressForm addressForm;    //either Id or new address
-    private Long creatorId;
     private boolean limitedToTeam;
     private boolean limitedToDepartment;
 }

@@ -4,6 +4,7 @@ import be.digitalcity.laetitia.finalproject.mappers.TopicMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.TopicDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.Topic;
+import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
 import be.digitalcity.laetitia.finalproject.repositories.TopicRepository;
 import be.digitalcity.laetitia.finalproject.services.TopicServiceInterface;
@@ -50,11 +51,13 @@ public class TopicService implements TopicServiceInterface {
                 .collect(Collectors.toList()));
     }
 
-    public void insert(TopicForm form) {
+    public void insert(TopicForm form, User creator) {
         if (form == null) {
             return;
         }
-        this.repository.save(mapper.toEntity(form));
+        Topic toSave = this.mapper.toEntity(form);
+        toSave.setCreator(creator);
+        this.repository.save(toSave);
     }
 
     public void update(Long id, TopicForm form) {

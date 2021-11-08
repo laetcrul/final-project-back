@@ -130,4 +130,11 @@ public class UserService implements UserServiceInterface {
         }
         return this.repository.findByUsername(s).orElseThrow(() -> new IllegalArgumentException("no user for this username"));
     }
+
+    public User findUserByUsername(String s) throws UsernameNotFoundException {
+        if (s == null) {
+            return null;
+        }
+        return this.repository.findByUsername(s).orElseThrow(() -> new IllegalArgumentException("no user for this username"));
+    }
 }

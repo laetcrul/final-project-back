@@ -70,7 +70,6 @@ public class EventMapper {
         entity.setImage(form.getImage());
         entity.setDate(form.getDate());
         entity.setAddress(addressMapper.toEntity(addressService.findById(form.getAddressId())));
-        entity.setCreator(userMapper.toEntity(userService.findById(form.getCreatorId())));
         entity.setLimitedToTeam(form.isLimitedToTeam());
         entity.setLimitedToDepartment(form.isLimitedToDepartment());
         return entity;

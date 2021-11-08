@@ -84,7 +84,6 @@ public class AlertTopicMapper {
         AlertTopic entity = new AlertTopic();
 
         entity.setMessage(form.getMessage());
-        entity.setCreator(userMapper.toEntity(userService.findById(form.getCreatorId())));
         entity.setCategory(form.getCategory());
         entity.setTopic(topicMapper.toEntity(topicService.findById(form.getTopicId())));
 

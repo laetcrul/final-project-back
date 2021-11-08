@@ -6,6 +6,5 @@ import lombok.Data;
 public class InvitationForm {
     private String message;
     private Long recipientId;
-    private Long senderId;
     private Long eventId;
 }

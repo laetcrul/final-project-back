@@ -13,8 +13,8 @@ import be.digitalcity.laetitia.finalproject.services.impl.AlertService;
 import be.digitalcity.laetitia.finalproject.services.impl.ContextService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,23 +38,21 @@ public class AlertController {
         return ResponseEntity.ok(service.findAllAlerts());
     }
 
-    @GetMapping("/created_by/{user}")
+    @GetMapping("/owned")
     @Secured({"ROLE_MANAGE_OWNED_ELEMENTS"})
-    public ResponseEntity<List<AlertDTO>> findByCreator(@PathVariable User user) {
-        UserDetails currentUser = contextService.getCurrentUser();
-        if(!currentUser.equals(user)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ArrayList<>());
-        }
-        return ResponseEntity.ok(this.service.findAllByCreator(user.getId()));
+    public ResponseEntity<List<AlertDTO>> findByCreator() {
+        User currentUser = contextService.getCurrentUser();
+
+        return ResponseEntity.ok(this.service.findAllByCreator(currentUser.getId()));
     }
 
-    @GetMapping("/topic/{id}")
+    @GetMapping("/by_topic/{id}")
     @Secured({"ROLE_MANAGE_ALERTS"})
     public ResponseEntity<List<AlertTopicDTO>> findByTopic(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.findAllByTopic(id));
     }
 
-    @GetMapping("/event/{id}")
+    @GetMapping("/by_event/{id}")
     @Secured({"ROLE_MANAGE_ALERTS"})
     public ResponseEntity<List<AlertEventDTO>> findByEvent(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.findAllByEvent(id));
@@ -63,21 +61,23 @@ public class AlertController {
     @PostMapping("/event")
     @Secured({"ROLE_RAISE_ALERT"})
     public ResponseEntity<String> createEventAlert(@RequestBody AlertEventForm form) {
-        this.service.insertEventAlert(form);
+        User user = this.contextService.getCurrentUser();
+        this.service.insertEventAlert(form, user);
         return ResponseEntity.ok("Event alert created");
     }
 
     @PostMapping("/topic")
     @Secured({"ROLE_RAISE_ALERT"})
     public ResponseEntity<String> createTopicAlert(@RequestBody AlertTopicForm form) {
-        this.service.insertTopicAlert(form);
+        User user = this.contextService.getCurrentUser();
+        this.service.insertTopicAlert(form, user);
         return ResponseEntity.ok("Topic alert created");
     }
 
     @PutMapping("/{alert}")
     @Secured({"ROLE_RAISE_ALERT"})
     public ResponseEntity<String> updateAlert(@PathVariable Alert alert, @RequestBody AlertForm form) {
-        UserDetails user = contextService.getCurrentUser();
+        UserDetails user = contextService.getCurrentUserDetails();
         if(!alert.getCreator().equals(user)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized");
         }
@@ -107,5 +107,14 @@ public class AlertController {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDenied(
+            AccessDeniedException e
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Access denied");
     }
 }

@@ -81,7 +81,6 @@ public class AlertEventMapper {
         }
         AlertEvent entity = new AlertEvent();
         entity.setMessage(form.getMessage());
-        entity.setCreator(userMapper.toEntity(userService.findById(form.getCreatorId())));
         entity.setCategory(form.getCategory());
         entity.setEvent(eventMapper.toEntity(eventService.findById(form.getEventId())));
 

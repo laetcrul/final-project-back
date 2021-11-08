@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 public class AlertForm {
     private String message;
-    private Long creatorId;
     private ALERT_CATEGORY category;
 }

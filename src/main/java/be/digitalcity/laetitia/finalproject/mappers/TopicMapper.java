@@ -52,7 +52,6 @@ public class TopicMapper {
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
         entity.setImage(form.getImage());
-        entity.setCreator(userMapper.toEntity(userService.findById(form.getCreatorId())));
 
         return entity;
     }

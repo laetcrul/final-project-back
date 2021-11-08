@@ -100,17 +100,21 @@ public class AlertService implements AlertServiceInterface {
         else return null;
     }
 
-    public void insertEventAlert(AlertEventForm form){
+    public void insertEventAlert(AlertEventForm form, User creator){
         if (form == null) {
             return;
         }
+        AlertEvent toSave = this.alertEventMapper.toEntity(form);
+        toSave.setCreator(creator);
         this.alertEventRepository.save(this.alertEventMapper.toEntity(form));
     }
 
-    public void insertTopicAlert(AlertTopicForm form){
+    public void insertTopicAlert(AlertTopicForm form, User creator){
         if (form == null) {
             return;
         }
+        AlertTopic toSave = this.alertTopicMapper.toEntity(form);
+        toSave.setCreator(creator);
         this.alertTopicRepository.save(alertTopicMapper.toEntity(form));
     }
 
