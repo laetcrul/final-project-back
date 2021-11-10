@@ -3,7 +3,6 @@ package be.digitalcity.laetitia.finalproject.controllers;
 import be.digitalcity.laetitia.finalproject.models.dtos.AddressDTO;
 import be.digitalcity.laetitia.finalproject.models.forms.AddressForm;
 import be.digitalcity.laetitia.finalproject.services.impl.AddressService;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/address")
+@CrossOrigin
 public class AddressController {
     private final AddressService service;
 
