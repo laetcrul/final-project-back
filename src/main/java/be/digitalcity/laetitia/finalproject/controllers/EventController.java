@@ -19,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/event")
-@CrossOrigin
 public class EventController {
     private final EventService service;
     private final ContextService contextService;
@@ -34,6 +33,21 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> findAll() {
         return ResponseEntity.ok(this.service.findAll());
     }
+
+    @GetMapping("/{id}")
+    @Secured(value = {"ROLE_SEE_EVENTS"})
+    public ResponseEntity<EventDTO> findOneById(@PathVariable Long id){
+        User currentUser = contextService.getCurrentUser();
+        EventDTO event = service.findById(id);
+        if(event.isLimitedToDepartment() &&
+                !currentUser.getTeam().getDepartment().getId().equals(event.getCreatorDepartment().getId())){
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        if (event.isLimitedToTeam() && !currentUser.getTeam().getId().equals(event.getCreatorTeam().getId())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        return ResponseEntity.ok(event);
+        }
 
     @GetMapping("/registered")
     @Secured({"ROLE_SEE_EVENTS"})
