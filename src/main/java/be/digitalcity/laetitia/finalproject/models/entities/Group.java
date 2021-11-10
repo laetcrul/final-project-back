@@ -1,6 +1,7 @@
 package be.digitalcity.laetitia.finalproject.models.entities;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "security_group")
 @Data
-public class Group {
+public class Group implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,4 +20,9 @@ public class Group {
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
     private Set<Role> roles;
+
+    @Override
+    public String getAuthority() {
+        return this.label;
+    }
 }

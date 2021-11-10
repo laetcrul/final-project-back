@@ -66,10 +66,14 @@ public class User implements UserDetails {
         Set<Role> roles = this.roles;
         roles.addAll(this.group.getRoles());
 
-        return this.roles.stream()
+        List<SimpleGrantedAuthority> authorities = this.roles.stream()
                 .map(Role::getAuthority)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+
+        authorities.add(new SimpleGrantedAuthority(this.group.getLabel()));
+
+        return authorities;
     }
 
     public List<String> getAllRolesAsString() {
