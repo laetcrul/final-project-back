@@ -79,9 +79,12 @@ public class User implements UserDetails {
     public List<String> getAllRolesAsString() {
         Set<Role> roles = this.roles;
         roles.addAll(this.group.getRoles());
-        return this.roles.stream()
+        List<String> toReturn =  this.roles.stream()
                 .map(Role::getLabel)
                 .collect(Collectors.toList());
+
+        toReturn.add(this.group.getLabel());
+        return toReturn;
     }
 
     @Override

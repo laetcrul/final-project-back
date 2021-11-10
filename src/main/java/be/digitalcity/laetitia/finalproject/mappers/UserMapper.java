@@ -25,6 +25,7 @@ public class UserMapper {
                 .username(entity.getUsername())
                 .image(entity.getImage())
                 .team(teamMapper.toDTO(entity.getTeam()))
+                .roles(entity.getAllRolesAsString())
                 .isAccountNotExpired(entity.isAccountNonExpired())
                 .isNonLocked(entity.isNonLocked())
                 .isCredentialsNonExpired(entity.isCredentialsNonExpired())
