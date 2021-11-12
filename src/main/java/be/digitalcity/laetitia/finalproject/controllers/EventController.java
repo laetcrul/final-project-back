@@ -6,7 +6,6 @@ import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.EventForm;
 import be.digitalcity.laetitia.finalproject.services.impl.ContextService;
 import be.digitalcity.laetitia.finalproject.services.impl.EventService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,7 +13,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -72,10 +70,9 @@ public class EventController {
 
     @PostMapping("")
     @Secured({"ROLE_CREATE_EVENT"})
-    public ResponseEntity<String> create(@RequestBody EventForm form) {
+    public void create(@RequestBody EventForm form) {
         User currentUser = this.contextService.getCurrentUser();
         service.insert(form, currentUser);
-        return ResponseEntity.ok("Event created");
     }
 
     @PutMapping("/{event}")
@@ -106,20 +103,18 @@ public class EventController {
         return ResponseEntity.ok("Event deleted");
     }
 
-    @PutMapping("/register")
+    @PutMapping("/register/{id}")
     @Secured({"ROLE_SUBSCRIBE_TO_EVENT"})
-    public ResponseEntity<String> register(@Param("eventId") Long eventId) {
+    public void register(@PathVariable Long id) {
         User currentUser = this.contextService.getCurrentUser();
-        this.service.register(currentUser.getId(), eventId);
-        return ResponseEntity.ok("User was registered to event");
+        this.service.register(currentUser.getId(), id);
     }
 
-    @PutMapping("/unregister")
+    @PutMapping("/unregister/{id}")
     @Secured({"ROLE_SUBSCRIBE_TO_EVENT"})
-    public ResponseEntity<String> unregister(@Param("eventId") Long eventId) {
+    public void unregister(@PathVariable Long id) {
         User currentUser = contextService.getCurrentUser();
-        this.service.unregister(currentUser.getId(), eventId);
-        return ResponseEntity.ok("User was successfully unregistered");
+        this.service.unregister(currentUser.getId(), id);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

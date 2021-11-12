@@ -6,7 +6,6 @@ import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
 import be.digitalcity.laetitia.finalproject.services.impl.ContextService;
 import be.digitalcity.laetitia.finalproject.services.impl.TopicService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,7 +13,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -52,10 +50,9 @@ public class TopicController {
 
     @PostMapping("")
     @Secured({"ROLE_CREATE_TOPIC"})
-    public ResponseEntity<String> create(@RequestBody TopicForm form) {
+    public void create(@RequestBody TopicForm form) {
         User currentUser = this.contextService.getCurrentUser();
         this.service.insert(form, currentUser);
-        return ResponseEntity.ok("Topic created");
     }
 
     @PutMapping("/{topic}")
@@ -69,19 +66,17 @@ public class TopicController {
         return ResponseEntity.ok("Topic updated");
     }
 
-    @PutMapping("/subscribe/{topicId}")
+    @PutMapping("/register/{topicId}")
     @Secured({"ROLE_SUBSCRIBE_TO_TOPIC"})
-    public ResponseEntity<String> subscribe(@PathVariable Long topicId) {
+    public void subscribe(@PathVariable Long topicId) {
         User currentUser = this.contextService.getCurrentUser();
         this.service.subscribe(currentUser.getId(), topicId);
-        return ResponseEntity.ok("Subscribed");
     }
 
-    @PutMapping("/unsubscribe/{topicId}")
-    public ResponseEntity<String> unsubscribe(@PathVariable Long topicId) {
+    @PutMapping("/unregister/{topicId}")
+    public void unsubscribe(@PathVariable Long topicId) {
         User currentUser = this.contextService.getCurrentUser();
         this.service.unsubscribe(currentUser.getId(), topicId);
-        return ResponseEntity.ok("Unsubscribed");
     }
 
     @DeleteMapping("/{topic}")
