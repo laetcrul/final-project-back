@@ -13,8 +13,6 @@ import be.digitalcity.laetitia.finalproject.repositories.EventRepository;
 import be.digitalcity.laetitia.finalproject.services.EventServiceInterface;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,7 +155,7 @@ public class EventService implements EventServiceInterface {
         }
 
         if (form.getAddressId() == null) {
-            AddressForm newAddress = form.getAddressForm();
+            AddressForm newAddress = form.getAddress();
 
             if (newAddress != null) {
                 this.addressService.insert(newAddress);
