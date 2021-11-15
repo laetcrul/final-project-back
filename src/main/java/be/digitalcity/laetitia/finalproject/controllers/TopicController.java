@@ -41,6 +41,12 @@ public class TopicController {
         return ResponseEntity.ok(this.service.findAllByCreatorId(currentUser.getId()));
     }
 
+    @GetMapping("/{id}")
+    @Secured({"ROLE_SEE_TOPICS"})
+    public ResponseEntity<TopicDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(this.service.findById(id));
+    }
+
     @GetMapping("/registered")
     @Secured({"ROLE_SEE_TOPICS"})
     public ResponseEntity<List<TopicDTO>> findByRegisteredUser() {

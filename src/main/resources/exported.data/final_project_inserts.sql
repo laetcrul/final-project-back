@@ -115,7 +115,18 @@ INSERT INTO public.event (id, date, description, image, limited_to_department, l
 
 INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (3, 1);
 INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 2);
-INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 2);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (1, 1);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 5);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 6);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 7);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (1, 3);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (1, 4);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (1, 5);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (3, 3);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (3, 8);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (3, 6);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (3, 5);
+INSERT INTO public.topic_subscribed_users (topic_id, subscribed_users_id) VALUES (2, 1);
 
 INSERT INTO public.event_participants (event_id, participants_id) VALUES (1, 1);
 INSERT INTO public.event_participants (event_id, participants_id) VALUES (2, 1);
