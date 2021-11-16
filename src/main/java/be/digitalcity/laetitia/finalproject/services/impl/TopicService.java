@@ -57,6 +57,7 @@ public class TopicService implements TopicServiceInterface {
         }
         Topic toSave = this.mapper.toEntity(form);
         toSave.setCreator(creator);
+        toSave.getSubscribedUsers().add(creator);
         this.repository.save(toSave);
     }
 

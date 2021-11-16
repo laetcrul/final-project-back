@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -29,7 +30,7 @@ public class Topic extends BaseEntity<Long>{
     private User creator;
 
     @ManyToMany
-    private List<User> subscribedUsers;
+    private List<User> subscribedUsers = new ArrayList();
 
     @PrePersist
     public void prePersist() {

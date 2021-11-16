@@ -89,6 +89,7 @@ public class EventService implements EventServiceInterface {
 
         Event toSave = this.mapper.toEntity(formWithAddressId);
         toSave.setCreator(user);
+        toSave.getParticipants().add(user);
         this.repository.save(toSave);
     }
 
