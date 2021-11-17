@@ -61,15 +61,14 @@ public class TopicController {
         this.service.insert(form, currentUser);
     }
 
-    @PutMapping("/{topic}")
+    @PutMapping("/edit/{topic}")
     @Secured({"ROLE_CREATE_TOPIC"})
-    public ResponseEntity<String> update(@PathVariable Topic topic, @RequestBody TopicForm form) {
+    public void update(@PathVariable Topic topic, @RequestBody TopicForm form) {
         UserDetails currentUser = this.contextService.getCurrentUserDetails();
         if (!topic.getCreator().equals(currentUser)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only allowed to update owned topics");
+            return;
         }
         this.service.update(topic.getId(), form);
-        return ResponseEntity.ok("Topic updated");
     }
 
     @PutMapping("/register/{topicId}")
@@ -87,16 +86,15 @@ public class TopicController {
 
     @DeleteMapping("/{topic}")
     @Secured({"ROLE_MANAGE_OWNED_ELEMENTS", "ROLE_MANAGE_TOPICS"})
-    public ResponseEntity<String> delete(@PathVariable Topic topic) {
+    public void delete(@PathVariable Topic topic) {
         User currentUser = this.contextService.getCurrentUser();
 
         if (!currentUser.equals(topic.getCreator())
                 && currentUser.getAuthorities().stream()
                 .noneMatch(r -> r.getAuthority().equals("ROLE_MANAGE_TOPICS"))) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only admin or creator can delete topic");
+            return;
         }
         this.service.delete(topic.getId());
-        return ResponseEntity.ok("Topic deleted");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

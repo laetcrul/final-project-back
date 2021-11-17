@@ -18,7 +18,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -61,43 +60,38 @@ public class AlertController {
 
     @PostMapping("/event")
     @Secured({"ROLE_RAISE_ALERT"})
-    public ResponseEntity<String> createEventAlert(@RequestBody AlertEventForm form) {
+    public void createEventAlert(@RequestBody AlertEventForm form) {
         User user = this.contextService.getCurrentUser();
         this.service.insertEventAlert(form, user);
-        return ResponseEntity.ok("Event alert created");
     }
 
     @PostMapping("/topic")
     @Secured({"ROLE_RAISE_ALERT"})
-    public ResponseEntity<String> createTopicAlert(@RequestBody AlertTopicForm form) {
+    public void createTopicAlert(@RequestBody AlertTopicForm form) {
         User user = this.contextService.getCurrentUser();
         this.service.insertTopicAlert(form, user);
-        return ResponseEntity.ok("Topic alert created");
     }
 
     @PutMapping("/{alert}")
     @Secured({"ROLE_RAISE_ALERT"})
-    public ResponseEntity<String> updateAlert(@PathVariable Alert alert, @RequestBody AlertForm form) {
+    public void updateAlert(@PathVariable Alert alert, @RequestBody AlertForm form) {
         UserDetails user = contextService.getCurrentUserDetails();
         if(!alert.getCreator().equals(user)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized");
+            return;
         }
         this.service.updateAlert(alert.getId(), form);
-        return ResponseEntity.ok("Alert was updated");
     }
 
     @PutMapping("/response")
     @Secured({"ROLE_MANAGE_ALERTS"})
-    public ResponseEntity<String> respond(@RequestBody AlertResponseForm form) {
+    public void respond(@RequestBody AlertResponseForm form) {
         this.service.respondToAlert(form);
-        return ResponseEntity.ok("Response sent");
     }
 
     @DeleteMapping("/{id}")
     @Secured({"ROLE_MANAGE_ALERTS"})
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         this.service.delete(id);
-        return ResponseEntity.ok("Alert was deleted");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

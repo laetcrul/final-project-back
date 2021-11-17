@@ -14,7 +14,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,34 +47,31 @@ public class InvitationController {
 
     @PostMapping("")
     @Secured({"ROLE_CREATE_INVITATION"})
-    public ResponseEntity<String> create(@RequestBody InvitationForm form) {
+    public void create(@RequestBody InvitationForm form) {
         User currentUser = this.contextService.getCurrentUser();
         this.service.insert(form, currentUser);
-        return ResponseEntity.ok("Invitation sent");
     }
 
     @PutMapping("/respond/{invitation}")
     @Secured({"ROLE_RESPOND_TO_INVITATION"})
-    public ResponseEntity<String> respond(@RequestBody InvitationResponseForm form, @PathVariable Invitation invitation) {
+    public void respond(@RequestBody InvitationResponseForm form, @PathVariable Invitation invitation) {
         UserDetails currentUser = contextService.getCurrentUserDetails();
 
         if (!invitation.getRecipient().equals(currentUser)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized - user is not recipient of invitation");
+            return;
         }
 
         this.service.respond(invitation.getId(), form);
-        return ResponseEntity.ok("Answer sent");
     }
 
     @DeleteMapping("/{invitation}")
     @Secured({"ROLE_MANAGE_OWNED_ELEMENTS"})
-    public ResponseEntity<String> delete(@PathVariable Invitation invitation) {
+    public void delete(@PathVariable Invitation invitation) {
         UserDetails currentUser = contextService.getCurrentUserDetails();
         if (!invitation.getSender().equals(currentUser)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Can only be deleted by sender");
+            return;
         }
         this.service.delete(invitation.getId());
-        return ResponseEntity.ok("Invitation deleted");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

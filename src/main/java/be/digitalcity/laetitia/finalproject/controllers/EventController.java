@@ -1,11 +1,13 @@
 package be.digitalcity.laetitia.finalproject.controllers;
 
 import be.digitalcity.laetitia.finalproject.models.dtos.EventDTO;
+import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
 import be.digitalcity.laetitia.finalproject.models.entities.Event;
 import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.EventForm;
 import be.digitalcity.laetitia.finalproject.services.impl.ContextService;
 import be.digitalcity.laetitia.finalproject.services.impl.EventService;
+import be.digitalcity.laetitia.finalproject.services.impl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,23 +15,37 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
     private final EventService service;
     private final ContextService contextService;
+    private final UserService userService;
 
-    public EventController(EventService service, ContextService contextService) {
+    public EventController(EventService service, ContextService contextService, UserService userService) {
         this.service = service;
         this.contextService = contextService;
+        this.userService = userService;
     }
 
     @GetMapping("")
     @Secured(value = {"ROLE_SEE_EVENTS"})
     public ResponseEntity<List<EventDTO>> findAll() {
-        return ResponseEntity.ok(this.service.findAll());
+        User currentUser = contextService.getCurrentUser();
+        UserDTO user = this.userService.findById(currentUser.getId());
+        List<EventDTO> allEvents= this.service.findAll();
+        List<EventDTO> events = new ArrayList<>();
+        events.addAll(allEvents.stream()
+                            .filter(event ->
+                            (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
+                            || (event.isLimitedToTeam() && event.getCreatorTeam().equals(user.getTeam()))
+                            || (event.isLimitedToDepartment() && event.getCreatorDepartment().equals(user.getTeam().getDepartment())))
+                            .collect(Collectors.toList()));
+        return ResponseEntity.ok(events);
     }
 
     @GetMapping("/{id}")
@@ -75,32 +91,30 @@ public class EventController {
         service.insert(form, currentUser);
     }
 
-    @PutMapping("/{event}")
+    @PutMapping("edit/{event}")
     @Secured({"ROLE_CREATE_EVENT"})
-    public ResponseEntity<String> update(@PathVariable Event event, @RequestBody EventForm form) {
+    public void update(@PathVariable Event event, @RequestBody EventForm form) {
         UserDetails user = contextService.getCurrentUserDetails();
 
         if (!event.getCreator().getUsername().equals(user.getUsername())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized - user does not own the event");
+            return;
         }
 
         this.service.update(event.getId(), form);
-        return ResponseEntity.ok("Event updated");
     }
 
     @DeleteMapping("/{event}")
     @Secured({"ROLE_MANAGE_EVENTS", "ROLE_MANAGE_OWNED_ELEMENTS"})
-    public ResponseEntity<String> delete(@PathVariable Event event) {
+    public void delete(@PathVariable Event event) {
         UserDetails currentUser = this.contextService.getCurrentUserDetails();
 
         if(!currentUser.equals(event.getCreator())
                 && currentUser.getAuthorities().stream()
                 .noneMatch(r -> r.getAuthority().equals("ROLE_MANAGE_TOPICS"))){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only admin or creator can delete topic");
+            return;
         }
 
         this.service.delete(event.getId());
-        return ResponseEntity.ok("Event deleted");
     }
 
     @PutMapping("/register/{id}")

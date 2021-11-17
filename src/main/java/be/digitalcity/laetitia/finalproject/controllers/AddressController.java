@@ -28,30 +28,25 @@ public class AddressController {
 
     @PostMapping("")
     @Secured({"ROLE_CREATE_ADDRESS"})
-    public ResponseEntity<String> create(@RequestBody AddressForm form){
+    public void create(@RequestBody AddressForm form){
         this.service.insert(form);
-        return ResponseEntity.ok("Address saved");
     }
 
     @PutMapping("/{id}")
     @Secured({"ROLE_CREATE_ADDRESS"})
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody AddressForm form) {
+    public void update(@PathVariable Long id, @RequestBody AddressForm form) {
         this.service.update(id, form);
-        return ResponseEntity.ok("Address updated");
     }
 
 
     @DeleteMapping("/{id}")
     @Secured({"ROLE_DELETE_ADDRESS"})
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         this.service.delete(id);
-        return ResponseEntity.ok("Address deleted");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(
-            IllegalArgumentException e
-    ){
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException e){
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

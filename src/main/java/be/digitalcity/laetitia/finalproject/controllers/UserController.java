@@ -47,30 +47,26 @@ public class UserController {
 
     @PutMapping("/disable/{id}")
     @Secured({"ROLE_MANAGE_USERS"})
-    public ResponseEntity<String> disable(@PathVariable Long id) {
+    public void disable(@PathVariable Long id) {
         this.service.disable(id);
-        return ResponseEntity.ok("User account disabled");
     }
 
     @PutMapping("/enable/{id}")
     @Secured({"ROLE_MANAGE_USERS"})
-    public ResponseEntity<String> enable(@PathVariable Long id) {
+    public void enable(@PathVariable Long id) {
         this.service.enable(id);
-        return ResponseEntity.ok("User account enabled");
     }
 
     @PutMapping("/add_role")
     @Secured({"ROLE_MANAGE_USERS"})
-    public ResponseEntity<String> addRole(@Param("userId") Long userId, @Param("roleId") Long roleId) {
+    public void addRole(@Param("userId") Long userId, @Param("roleId") Long roleId) {
         this.service.addRole(userId, roleId);
-        return ResponseEntity.ok("Role added");
     }
 
     @PutMapping("/remove_role")
     @Secured({"ROLE_MANAGE_USERS"})
-    public ResponseEntity<String> removeRole(@Param("userId") Long userId, @Param("roleId") Long roleId) {
+    public void removeRole(@Param("userId") Long userId, @Param("roleId") Long roleId) {
         this.service.removeRole(userId, roleId);
-        return ResponseEntity.ok("Role removed");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

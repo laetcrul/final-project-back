@@ -3,15 +3,16 @@ package be.digitalcity.laetitia.finalproject.services.impl;
 import be.digitalcity.laetitia.finalproject.mappers.TopicMapper;
 import be.digitalcity.laetitia.finalproject.models.dtos.TopicDTO;
 import be.digitalcity.laetitia.finalproject.models.dtos.UserDTO;
+import be.digitalcity.laetitia.finalproject.models.entities.Event;
 import be.digitalcity.laetitia.finalproject.models.entities.Topic;
 import be.digitalcity.laetitia.finalproject.models.entities.User;
 import be.digitalcity.laetitia.finalproject.models.forms.TopicForm;
+import be.digitalcity.laetitia.finalproject.repositories.EventRepository;
 import be.digitalcity.laetitia.finalproject.repositories.TopicRepository;
 import be.digitalcity.laetitia.finalproject.services.TopicServiceInterface;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -21,11 +22,14 @@ public class TopicService implements TopicServiceInterface {
     private final TopicRepository repository;
     private final TopicMapper mapper;
     private final UserService userService;
+    private final EventRepository eventRepository;
 
-    public TopicService(TopicRepository repository, TopicMapper mapper, UserService userService) {
+    public TopicService(TopicRepository repository, TopicMapper mapper, UserService userService, EventRepository eventRepository) {
         this.repository = repository;
         this.mapper = mapper;
         this.userService = userService;
+
+        this.eventRepository = eventRepository;
     }
 
     public TopicDTO findById(Long id) {
@@ -78,6 +82,14 @@ public class TopicService implements TopicServiceInterface {
         if (id == null) {
             return;
         }
+        Topic toDelete = repository.findById(id).orElseThrow();
+        toDelete.setSubscribedUsers(new ArrayList<>());
+        List<Event> events = eventRepository.findAllByTopic(toDelete);
+
+        events.forEach(event -> event.setTopic(this.mapper.toEntity(this.findById(24L))));
+        this.eventRepository.saveAll(events);
+
+        repository.save(toDelete);
         repository.deleteById(id);
     }
 

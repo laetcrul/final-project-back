@@ -7,7 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +38,7 @@ public class Event extends BaseEntity<Long>{
     private User creator;
 
     @ManyToMany
-    private List<User> participants;
+    private List<User> participants = new ArrayList<>();
 
     private boolean limitedToTeam;
 
