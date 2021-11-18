@@ -81,7 +81,19 @@ public class EventController {
     @GetMapping("/by_topic/{id}")
     @Secured({"ROLE_SEE_EVENTS"})
     public ResponseEntity<List<EventDTO>> findByTopic(@PathVariable Long id) {
-        return ResponseEntity.ok(this.service.findByTopic(id));
+        User user = contextService.getCurrentUser();
+
+        List<EventDTO> filteredEvents;
+        List<EventDTO> events = new ArrayList<>(this.service.findByTopic(id));
+
+        filteredEvents = events.stream()
+                .filter(event ->
+                        (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
+                                || (event.isLimitedToTeam() && event.getCreatorTeam().equals(user.getTeam()))
+                                || (event.isLimitedToDepartment() && event.getCreatorDepartment().equals(user.getTeam().getDepartment())))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(filteredEvents);
     }
 
     @PostMapping("")
