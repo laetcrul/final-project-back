@@ -2,9 +2,7 @@ package be.digitalcity.laetitia.finalproject.models.dtos;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -14,7 +12,8 @@ public class UserDTO {
     private String username;
     private String image;
     private TeamDTO team;
-    private List<String> roles;
+    private GroupDTO group;
+    private Set<RoleDTO> roles;
     private boolean isAccountNotExpired;
     private boolean isNonLocked;
     private boolean isCredentialsNonExpired;
