@@ -38,13 +38,12 @@ public class EventController {
         User currentUser = contextService.getCurrentUser();
         UserDTO user = this.userService.findById(currentUser.getId());
         List<EventDTO> allEvents= this.service.findAll();
-        List<EventDTO> events = new ArrayList<>();
-        events.addAll(allEvents.stream()
-                            .filter(event ->
-                            (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
-                            || (event.isLimitedToTeam() && event.getCreatorTeam().equals(user.getTeam()))
-                            || (event.isLimitedToDepartment() && event.getCreatorDepartment().equals(user.getTeam().getDepartment())))
-                            .collect(Collectors.toList()));
+        List<EventDTO> events = allEvents.stream()
+                .filter(event ->
+                        (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
+                                || (event.isLimitedToTeam() && event.getCreatorTeam().equals(user.getTeam()))
+                                || (event.isLimitedToDepartment() && event.getCreatorDepartment().equals(user.getTeam().getDepartment())))
+                .collect(Collectors.toList());
         return ResponseEntity.ok(events);
     }
 
@@ -60,10 +59,13 @@ public class EventController {
         User currentUser = contextService.getCurrentUser();
         EventDTO event = service.findById(id);
         if(event.isLimitedToDepartment() &&
-                !currentUser.getTeam().getDepartment().getId().equals(event.getCreatorDepartment().getId())){
+                !currentUser.getTeam().getDepartment().getId().equals(event.getCreatorDepartment().getId())
+                 && !hasAuthority("ROLE_MANAGE_EVENTS")){
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
-        if (event.isLimitedToTeam() && !currentUser.getTeam().getId().equals(event.getCreatorTeam().getId())) {
+        if (event.isLimitedToTeam()
+                && !currentUser.getTeam().getId().equals(event.getCreatorTeam().getId())
+                && !hasAuthority("ROLE_MANAGE_EVENTS")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
         return ResponseEntity.ok(event);
@@ -112,9 +114,10 @@ public class EventController {
     @PutMapping("edit/{event}")
     @Secured({"ROLE_CREATE_EVENT"})
     public void update(@PathVariable Event event, @RequestBody EventForm form) {
-        UserDetails user = contextService.getCurrentUserDetails();
+        UserDetails user = contextService.getCurrentUser();
 
-        if (!event.getCreator().getUsername().equals(user.getUsername())) {
+        if (!event.getCreator().getUsername().equals(user.getUsername())
+                && !hasAuthority("ROLE_MANAGE_EVENTS")) {
             return;
         }
 
@@ -127,8 +130,7 @@ public class EventController {
         UserDetails currentUser = this.contextService.getCurrentUserDetails();
 
         if(!currentUser.equals(event.getCreator())
-                && currentUser.getAuthorities().stream()
-                .noneMatch(r -> r.getAuthority().equals("ROLE_MANAGE_TOPICS"))){
+                && !hasAuthority("ROLE_MANAGE_EVENTS")){
             return;
         }
 
@@ -175,5 +177,11 @@ public class EventController {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body("Access denied");
+    }
+
+    private boolean hasAuthority(String authority){
+        User currentUser = contextService.getCurrentUser();
+        return currentUser.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(authority));
     }
 }

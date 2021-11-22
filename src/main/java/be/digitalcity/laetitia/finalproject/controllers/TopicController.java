@@ -64,7 +64,7 @@ public class TopicController {
     @Secured({"ROLE_CREATE_TOPIC"})
     public void update(@PathVariable Topic topic, @RequestBody TopicForm form) {
         UserDetails currentUser = this.contextService.getCurrentUserDetails();
-        if (!topic.getCreator().equals(currentUser)) {
+        if (!topic.getCreator().equals(currentUser) && !hasAuthority("ROLE_MANAGE_TOPICS")) {
             return;
         }
         this.service.update(topic.getId(), form);
@@ -89,8 +89,7 @@ public class TopicController {
         User currentUser = this.contextService.getCurrentUser();
 
         if (!currentUser.equals(topic.getCreator())
-                && currentUser.getAuthorities().stream()
-                .noneMatch(r -> r.getAuthority().equals("ROLE_MANAGE_TOPICS"))) {
+                && !hasAuthority("ROLE_MANAGE_TOPICS")) {
             return;
         }
         this.service.delete(topic.getId());
@@ -114,4 +113,10 @@ public class TopicController {
                 .status(HttpStatus.FORBIDDEN)
                 .body("Access denied");
     }
+    private boolean hasAuthority(String authority){
+        User currentUser = contextService.getCurrentUser();
+        return currentUser.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(authority));
+    }
+
 }
