@@ -48,6 +48,12 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    @GetMapping("/admin")
+    @Secured(value= {"ROLE_MANAGE_EVENTS"})
+    public ResponseEntity<List<EventDTO>> findAllAdmin(){
+        return ResponseEntity.ok(this.service.findAll());
+    }
+
     @GetMapping("/{id}")
     @Secured(value = {"ROLE_SEE_EVENTS"})
     public ResponseEntity<EventDTO> findOneById(@PathVariable Long id){

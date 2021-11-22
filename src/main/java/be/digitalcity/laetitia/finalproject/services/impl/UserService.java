@@ -116,6 +116,10 @@ public class UserService implements UserServiceInterface {
             return;
         }
 
+        if(user.getGroup().getId().equals(2L)){
+            throw new IllegalArgumentException("Cannot remove admin role from admin profile");
+        }
+
         Set<Role> roles = user.getRoles();
         roles.remove(role);
         user.setRoles(roles);

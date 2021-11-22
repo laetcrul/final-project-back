@@ -8,7 +8,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -25,6 +24,12 @@ public class RoleController {
     @Secured("ROLE_MANAGE_USERS")
     public ResponseEntity<Set<RoleDTO>> findAll() {
         return ResponseEntity.ok(this.service.findAll());
+    }
+
+    @GetMapping("/admin")
+    @Secured("ROLE_MANAGE_USERS")
+    public ResponseEntity<Set<RoleDTO>> findALlAdminRoles(){
+        return ResponseEntity.ok(this.service.findAllAdmin());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
