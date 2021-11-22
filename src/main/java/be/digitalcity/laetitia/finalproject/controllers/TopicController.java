@@ -37,7 +37,6 @@ public class TopicController {
     @Secured({"ROLE_SEE_TOPICS"})
     public ResponseEntity<List<TopicDTO>> findByCreator() {
         User currentUser = this.contextService.getCurrentUser();
-
         return ResponseEntity.ok(this.service.findAllByCreatorId(currentUser.getId()));
     }
 

@@ -95,8 +95,8 @@ public class EventController {
         filteredEvents = events.stream()
                 .filter(event ->
                         (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
-                                || (event.isLimitedToTeam() && event.getCreatorTeam().equals(user.getTeam()))
-                                || (event.isLimitedToDepartment() && event.getCreatorDepartment().equals(user.getTeam().getDepartment())))
+                                || (event.isLimitedToTeam() && event.getCreatorTeam().getId().equals(user.getTeam().getId()))
+                                || (event.isLimitedToDepartment() && event.getCreatorDepartment().getId().equals(user.getTeam().getDepartment().getId())))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(filteredEvents);
@@ -138,8 +138,22 @@ public class EventController {
     @PutMapping("/register/{id}")
     @Secured({"ROLE_SUBSCRIBE_TO_EVENT"})
     public void register(@PathVariable Long id) {
-        User currentUser = this.contextService.getCurrentUser();
-        this.service.register(currentUser.getId(), id);
+        User user = contextService.getCurrentUser();
+
+        List<EventDTO> filteredEvents;
+        List<EventDTO> events = new ArrayList<>(this.service.findAll());
+
+        filteredEvents = events.stream()
+                .filter(event ->
+                        (!event.isLimitedToTeam() && !event.isLimitedToDepartment())
+                                || (event.isLimitedToTeam() && event.getCreatorTeam().getId().equals(user.getTeam().getId()))
+                                || (event.isLimitedToDepartment() && event.getCreatorDepartment().getId().equals(user.getTeam().getDepartment().getId())))
+                .filter(event -> event.getId().equals(id))
+                .collect(Collectors.toList());
+
+        if(filteredEvents.stream().findAny().isPresent()){
+            this.service.register(user.getId(), id);
+        }
     }
 
     @PutMapping("/unregister/{id}")
