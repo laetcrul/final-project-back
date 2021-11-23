@@ -86,7 +86,7 @@ public class TopicService implements TopicServiceInterface {
         toDelete.setSubscribedUsers(new ArrayList<>());
         List<Event> events = eventRepository.findAllByTopic(toDelete);
 
-        events.forEach(event -> event.setTopic(this.mapper.toEntity(this.findById(24L))));
+        events.forEach(event -> event.setTopic(this.mapper.toEntity(this.findById(10L))));
         this.eventRepository.saveAll(events);
 
         repository.save(toDelete);

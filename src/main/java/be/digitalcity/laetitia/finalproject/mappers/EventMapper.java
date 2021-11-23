@@ -64,7 +64,10 @@ public class EventMapper {
         }
 
         Event entity = new Event();
-        entity.setTopic(topicMapper.toEntity(topicService.findById(form.getTopic().getId())));
+        if (form.getTopic() != null) {
+            entity.setTopic(topicMapper.toEntity(topicService.findById(form.getTopic().getId())));
+        } else entity.setTopic(topicMapper.toEntity(topicService.findById(10L)));
+
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
         entity.setImage(form.getImage());

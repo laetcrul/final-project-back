@@ -17,7 +17,7 @@ import java.util.List;
 @Where(clause = "is_active=true")
 public class Event extends BaseEntity<Long>{
 
-    @Column(length = 250, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
 
     @Column(length = 500)

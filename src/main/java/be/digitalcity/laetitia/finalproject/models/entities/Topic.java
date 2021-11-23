@@ -17,7 +17,7 @@ import java.util.List;
 @Where(clause = "is_active=true")
 public class Topic extends BaseEntity<Long>{
 
-    @Column(length = 100)
+    @Column(length = 50)
     private String name;
 
     @Column(length = 500)
