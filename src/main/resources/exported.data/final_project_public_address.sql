@@ -1,0 +1,8 @@
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (1, '2021-10-20', true, null, 'Brussels', 'Belgium', 50, 1000, 'rue Sans Souci');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (2, '2021-10-20', true, null, 'Liege', 'Belgium', 27, 5000, 'rue de Liege');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (3, '2021-10-20', true, null, 'Anvers', 'Belgium', 78, 2400, 'Grote Markt');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (4, '2021-10-20', true, null, 'Brussels', 'Belgium', 45, 2700, 'Rue du Trone');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (5, '2021-11-15', true, null, 'Brussels', 'Belgium', 20, 1000, 'Place De Brouckère');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (6, '2021-11-18', true, null, 'Nature', 'Belgium', 25, 6321, 'Forst Road');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (7, '2021-11-23', true, null, 'htrtrh', 'htrhtre', 5555, 5555, 'htht');
+INSERT INTO public.address (id, created_at, is_active, updated_at, city, country, number, post_code, street) VALUES (8, '2021-11-23', true, null, 'liliu', 'liuliu', 555, 55, 'gtgt');
