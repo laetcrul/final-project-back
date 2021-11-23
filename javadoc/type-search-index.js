@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"be.digitalcity.laetitia.finalproject.services.impl","l":"AddressService"},{"l":"All Classes","u":"allclasses-index.html"}];updateSearchResults();

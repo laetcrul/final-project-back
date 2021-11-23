@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Service to get, add, edit, delete addresses. Always returns them as DTOs
+ */
 @Service
 public class AddressService implements AddressServiceInterface {
     private final AddressRepository repository;
@@ -23,6 +26,12 @@ public class AddressService implements AddressServiceInterface {
         this.mapper = mapper;
     }
 
+    /**
+    * returns the address with the given ID
+    * @param id the id of the address to find
+    * @return AddressDTO
+    * @throws IllegalArgumentException if no address has been found
+    */
     public AddressDTO findById(Long id) {
         if (id == null) {
             return null;
@@ -33,10 +42,18 @@ public class AddressService implements AddressServiceInterface {
                 .orElseThrow(() -> new IllegalArgumentException("No active address for this id"));
     }
 
+    /**
+     * returns a list of all active addresses
+     * @return a list of AddressDTO
+     */
     public List<AddressDTO> findAll() {
         return mapper.toDTOs(this.repository.findAll());
     }
 
+    /**
+     * creates a new address if not yet existing
+     * @param form addressForm
+     */
     public void insert(AddressForm form) {
         this.findAddressByFields(form).ifPresentOrElse(
                 (address) -> {
@@ -45,6 +62,10 @@ public class AddressService implements AddressServiceInterface {
         );
     }
 
+    /**
+     * deactivates the address with the given ID if existing
+     * @param id
+     */
     public void delete(Long id) {
         if (id == null) {
             return;
@@ -52,6 +73,12 @@ public class AddressService implements AddressServiceInterface {
         this.repository.deleteById(id);
     }
 
+    /**
+     * updates the address corresponding to given id with fields of given form
+     * @param id
+     * @param form address form
+     * @throws IllegalArgumentException if no address was found for given id
+     */
     public void update(Long id, AddressForm form) {
         Address toUpdate = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No address for this id"));
@@ -67,6 +94,11 @@ public class AddressService implements AddressServiceInterface {
         this.repository.save(toUpdate);
     }
 
+    /**
+     * returns the address matching the form fields if already existing
+     * @param form a form containing all Address fields except id
+     * @return optional addressDTO
+     **/
     public Optional<AddressDTO> findAddressByFields(AddressForm form) {
         if (form == null) {
             return Optional.empty();

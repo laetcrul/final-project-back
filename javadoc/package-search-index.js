@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"be.digitalcity.laetitia.finalproject.services.impl"}];updateSearchResults();
