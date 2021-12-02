@@ -108,6 +108,9 @@ public class EventService implements EventServiceInterface {
         toUpdate.setAddress(this.addressService.findById(form.getAddressId()));
         toUpdate.setLimitedToTeam(form.isLimitedToTeam());
         toUpdate.setLimitedToDepartment(form.isLimitedToDepartment());
+        toUpdate.setTopic(this.topicService.findById(form.getTopic().getId()));
+
+        System.out.println(toUpdate);
 
         this.repository.save(this.mapper.toEntity(toUpdate));
     }

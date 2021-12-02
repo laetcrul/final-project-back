@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 class RoleMapperTest {
@@ -36,5 +37,19 @@ class RoleMapperTest {
 
         Set<RoleDTO> dtos = roleMapper.toDTOs(entities);
 
+        Optional<RoleDTO> optional1 = dtos.stream().filter(dto -> dto.getId().equals(4L)).findFirst();
+        Optional<RoleDTO> optional2 = dtos.stream().filter(dto -> dto.getId().equals(3L)).findFirst();
+
+        Assertions.assertTrue(optional1.isPresent());
+        Assertions.assertTrue(optional2.isPresent());
+
+        RoleDTO dto1 = optional1.get();
+        RoleDTO dto2 = optional2.get();
+
+        Assertions.assertEquals(dto1.getLabel(), entity1.getLabel());
+        Assertions.assertEquals(dto2.getLabel(), entity2.getLabel());
+
+        Assertions.assertEquals(dto1.getAuthority(), entity1.getAuthority());
+        Assertions.assertEquals(dto2.getAuthority(), entity2.getAuthority());
     }
 }
