@@ -1,2 +1,0 @@
-INSERT INTO public.alert (dtype, id, created_at, is_active, updated_at, category, is_handled, message, response_message, creator_id, event_id, topic_id) VALUES ('AlertEvent', 1, '2021-10-20', true, null, 1, false, 'Really bad movie', null, 1, 3, null);
-INSERT INTO public.alert (dtype, id, created_at, is_active, updated_at, category, is_handled, message, response_message, creator_id, event_id, topic_id) VALUES ('AlertEvent', 2, '2021-10-20', true, null, 0, false, 'invites to drink a lot', null, 2, 2, null);

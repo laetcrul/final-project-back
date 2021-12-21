@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/address")
-@CrossOrigin
 public class AddressController {
     private final AddressService service;
 

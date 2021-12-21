@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/topic")
-@CrossOrigin
 public class TopicController {
     private final TopicService service;
     private final ContextService contextService;

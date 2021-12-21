@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
 public class UserController {
     private final UserService service;
     private final ContextService contextService;
@@ -73,7 +72,6 @@ public class UserController {
     public ResponseEntity<String> handleIllegalArgument(
             IllegalArgumentException e
     ) {
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
