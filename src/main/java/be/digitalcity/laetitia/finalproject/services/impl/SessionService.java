@@ -10,11 +10,7 @@ import be.digitalcity.laetitia.finalproject.repositories.UserRepository;
 import be.digitalcity.laetitia.finalproject.services.SessionServiceInterface;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class SessionService implements SessionServiceInterface {
@@ -33,7 +29,7 @@ public class SessionService implements SessionServiceInterface {
 
     @Override
     public UserDTO login(LoginForm form) {
-            User user = this.repository.findByUsername(form.getUsername()).orElseThrow(() -> new IllegalArgumentException("no user for this username"));
+            User user = this.repository.findByUsername(form.getUsername()).orElseThrow(UsernamePasswordInvalidException::new);
             this.manager.authenticate(new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword()));
 
             UserDTO dto = this.mapper.toDTO(user);

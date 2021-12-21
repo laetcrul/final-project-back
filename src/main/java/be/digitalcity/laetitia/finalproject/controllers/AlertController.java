@@ -22,7 +22,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/alert")
-@CrossOrigin
 public class AlertController {
     private final AlertService service;
     private final ContextService contextService;

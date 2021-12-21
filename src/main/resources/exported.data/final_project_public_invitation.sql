@@ -1,2 +1,0 @@
-INSERT INTO public.invitation (id, created_at, is_active, updated_at, message, response_message, status, event_id, recipient_id, sender_id) VALUES (3, '2021-10-20', true, null, 'Hey let''s go drink!', null, 3, 2, 1, 2);
-INSERT INTO public.invitation (id, created_at, is_active, updated_at, message, response_message, status, event_id, recipient_id, sender_id) VALUES (4, '2021-10-20', true, null, 'Hey let''s go dance!', null, 3, 1, 2, 1);
